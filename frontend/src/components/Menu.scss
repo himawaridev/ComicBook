@@ -1,0 +1,55 @@
+#Menu {
+    display: flex;
+    justify-content: space-between;
+    background-color: #14425d;
+    padding: 10px 400px 10px 400px;
+    align-items: center;
+
+    .Logo {
+        display: flex;
+
+        .LogoColor {
+            color: white;
+            font-size: 30px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: #ab91c0;
+        }
+    }
+
+    .ContentMenu {
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 15px;
+        margin: 0px 10px 0px 10px;
+
+        .TextContentMenu {
+            margin: 0px 5px 0px 5px;
+        }
+    }
+
+    .ContentMenu:hover {
+        cursor: pointer;
+    }
+
+    .MenuList {
+        display: flex;
+        align-items: center;
+
+        .MenuTitle {
+            display: flex;
+        }
+
+        .ActiveMenuTitle {
+            color: black;
+        }
+
+        .MenuContent {
+            margin: 18px 0px 0px 10px;
+            color: white;
+            font-size: 14px;
+            background-color: #2f566d;
+        }
+    }
+}

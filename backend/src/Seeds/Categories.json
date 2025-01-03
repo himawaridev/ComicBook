@@ -1,0 +1,210 @@
+[
+    {
+        "title": "Tiên Hiệp",
+        "slug": "truyen-tien-hiep",
+        "description": "something",
+        "link": "/TienHiep"
+    },
+    {
+        "title": "Đô Thị",
+        "slug": "truyen-do-thi",
+        "description": "???",
+        "link": "/DoThi"
+    },
+    {
+        "title": "Khoa Huyễn",
+        "slug": "truyen-khoa-huyen",
+        "description": "???",
+        "link": "/KhoaHuyen"
+    },
+    {
+        "title": "Dị Năng",
+        "slug": "truyen-di-nang",
+        "description": "???",
+        "link": "/DiNang"
+    },
+    {
+        "title": "Xuyên Không",
+        "slug": "truyen-xuyen-khong",
+        "description": "???",
+        "link": "/XuyenKhong"
+    },
+    {
+        "title": "Thám Hiểm",
+        "slug": "truyen-tham-hiem",
+        "description": "???",
+        "link": "/ThamHiem"
+    },
+    {
+        "title": "Ngược",
+        "slug": "truyen-nguoc",
+        "description": "???",
+        "link": "/Nguoc"
+    },
+    {
+        "title": "Nữ Cường",
+        "slug": "truyen-nu-cuong",
+        "description": "???",
+        "link": "/NuCuong"
+    },
+    {
+        "title": "Đam Mỹ",
+        "slug": "truyen-dam-my",
+        "description": "???",
+        "link": "/DamMy"
+    },
+    {
+        "title": "Điền Văn",
+        "slug": "truyen-dien-van",
+        "description": "???",
+        "link": "/DienVan"
+    },
+    {
+        "title": "Truyện Teen",
+        "slug": "truyen-teen",
+        "description": "???",
+        "link": "/TruyenTeen"
+    },
+    {
+        "title": "Light Novel",
+        "slug": "truyen-light-novel",
+        "description": "???",
+        "link": "/LightNovel"
+    },
+    {
+        "title": "Khác",
+        "slug": "truyen-khac",
+        "description": "???",
+        "link": "/Khac"
+    },
+    {
+        "title": "Kiếm Hiệp",
+        "slug": "truyen-kiem-hiep",
+        "description": "???",
+        "link": "/KiemHiep"
+    },{
+        "title": "Quan Trường",
+        "slug": "truyen-quan-truong",
+        "description": "???",
+        "link": "/QuanTruong"
+    },{
+        "title": "Huyễn Huyền",
+        "slug": "truyen-huyen-huyen",
+        "description": "???",
+        "link": "/HuyenHuyen"
+    },{
+        "title": "Quân SỰ",
+        "slug": "truyen-quan-su",
+        "description": "???",
+        "link": "/QuanSu"
+    },{
+        "title": "Trọng Sinh",
+        "slug": "truyen-trong-sinh",
+        "description": "???",
+        "link": "/TrongSinh"
+    },{
+        "title": "Linh Dị",
+        "slug": "truyen-linh-di",
+        "description": "???",
+        "link": "/LinhDi"
+    },{
+        "title": "Sủng",
+        "slug": "truyen-sung",
+        "description": "???",
+        "link": "/Sung"
+    },{
+        "title": "Gia Đấu",
+        "slug": "truyen-gia-dau",
+        "description": "???",
+        "link": "/GiaDau"
+    },{
+        "title": "Bách Hợp",
+        "slug": "truyen-back-hop",
+        "description": "???",
+        "link": "/BachHop"
+    },{
+        "title": "Cổ Đại",
+        "slug": "truyen-co-dai",
+        "description": "???",
+        "link": "/CoDai"
+    },{
+        "title": "Tiểu Thuyết",
+        "slug": "truyen-tieu-thuyet",
+        "description": "???",
+        "link": "/TieuThuyet"
+    },{
+        "title": "Văn Học Việt",
+        "slug": "truyen-van-hoc-viet",
+        "description": "???",
+        "link": "/VanHocViet"
+    },{
+        "title": "Ngôn Tình",
+        "slug": "truyen-ngon-tinh",
+        "description": "???",
+        "link": "/NgonTinh"
+    },{
+        "title": "Võng Du",
+        "slug": "truyen-vong-du",
+        "description": "???",
+        "link": "/VongDu"
+    },{
+        "title": "Dị Giới",
+        "slug": "truyen-di-gioi",
+        "description": "???",
+        "link": "/DiGioi"
+    },
+    {
+        "title": "Lịch Sử",
+        "slug": "truyen-lich-su",
+        "description": "???",
+        "link": "/LichSu"
+    },
+    {
+        "title": "Trinh Thám",
+        "slug": "truyen-trinh-tham",
+        "description": "???",
+        "link": "/TrinhTham"
+    },
+    {
+        "title": "Sắc",
+        "slug": "truyen-sac",
+        "description": "???",
+        "link": "/Sac"
+    },
+    {
+        "title": "Cung Đấu",
+        "slug": "truyen-cung-dau",
+        "description": "???",
+        "link": "/CungDau"
+    },
+    {
+        "title": "Đông Phương",
+        "slug": "truyen-dong-phuong",
+        "description": "???",
+        "link": "/DongPhuong"
+    },
+    {
+        "title": "Hài Hước",
+        "slug": "truyen-hai-huoc",
+        "description": "???",
+        "link": "/HaiHuoc"
+    },
+    {
+        "title": "Mạt Thế",
+        "slug": "truyen-mat-the",
+        "description": "???",
+        "link": "/MatThe"
+    },
+    {
+        "title": "Nữ Phụ",
+        "slug": "truyen-phu-nu",
+        "description": "???",
+        "link": "/NuPhu"
+    },
+    {
+        "title": "Đoản Văn",
+        "slug": "truyen-doan-van",
+        "description": "???",
+        "link": "/DoanVan"
+    }
+]
