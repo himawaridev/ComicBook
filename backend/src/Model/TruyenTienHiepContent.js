@@ -19,6 +19,13 @@ module.exports = (sequelize) => {
 
     TruyenTienHiepContent.init(
         {
+            Slug: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notNull: { msg: "ImageLinks is required" },
+                },
+            },
             ImageLinks: {
                 type: DataTypes.STRING,
                 allowNull: false,
@@ -98,17 +105,11 @@ module.exports = (sequelize) => {
             },
         },
         {
+            sequelize,
+            modelName: "TruyenTienHiepContent",
             freezeTableName: true,
-            // Sử dụng đúng tên bảng được chỉ định, không tự động đổi sang số nhiều.
-
             tableName: "TruyenTienHiepContent",
-            // Đặt tên bảng trong cơ sở dữ liệu là `TruyenTienHiepContent`.
-
             timestamps: true,
-            // Tự động thêm các trường `createdAt` và `updatedAt` vào bảng.
-
-            sequelize
-            // Đối tượng Sequelize được truyền vào model.
         }
     );
 

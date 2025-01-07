@@ -21,30 +21,28 @@ async function getHTML() {
 const RunCrawler = async () => {
     // Tạo mảng rỗng để chứa dữ liệu
     const ComicData = [];
+
     const res = await getHTML();
     if (!res) {
         console.error("Failed to fetch HTML content.");
-        return;
+        return [];
     }
 
     const $ = cheerio.load(res);
 
-    //
-
-    const ImageLinks = [] || 'N/A';
-
-    $('.col-list-image div .cover').map((i, element) => {
-        const src = $(element).attr('src'); // Lấy giá trị của thuộc tính src
+    // Lấy link ảnh
+    const ImageLinks = [];
+    $('.row').map((i, element) => {
+        const src = $(element).find('.col-list-image img').attr('src');
         if (src) {
-            ImageLinks.push(src); // Thêm link vào mảng
+            ImageLinks.push(src);
         }
     });
-    // console.error("??? ????????????", ImageLinks);
+
+    console.log("[ImageLinks]", ImageLinks);
 
     // Duyệt qua từng phần tử `.row`
     $('.row').each((i, element) => {
-        // Lấy URL hình ảnh từ thẻ <img>
-        // const Image = $(element).find('.col-list-image img').attr('src') || 'N/A';
 
         // Lấy tiêu đề truyện
         const Title = $(element).find('.truyen-title').text().trim();
@@ -53,22 +51,28 @@ const RunCrawler = async () => {
         const Author = $(element).find('.glyphicon-pencil').parent().text().trim();
 
         // Lấy số chương
-        const Chuong = $(element).find('.glyphicon-list').parent().text().trim();
+        const Chapters = $(element).find('.glyphicon-list').parent().text().trim();
 
         // Chỉ thêm vào mảng nếu có tiêu đề
         if (Title) {
-            ComicData.push({ Title, Author, Chuong });
+            ComicData.push({
+                Title,
+                Author: Author || 'Unknown',
+                Chapters: Chapters || '0 chương',
+                ImageLinks: ImageLinks[i] || 'N/A', // Liên kết ảnh cho từng truyện
+            });
         }
     });
 
     // Kiểm tra kết quả
     if (ComicData.length === 0) {
         console.error("No data found. Please check the URL structure.");
-        return;
+        return [];
     }
 
-    // In dữ liệu ra console
+    // UnLock this line to see the data:
     // console.log("[TruyenTienHiepData.js]", ComicData);
+
     return ComicData;
 };
 

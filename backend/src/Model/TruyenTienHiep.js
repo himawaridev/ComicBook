@@ -19,6 +19,13 @@ module.exports = (sequelize) => {
 
     TruyenTienHiep.init(
         {
+            Slug: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notNull: { msg: "ImageLinks is required" },
+                },
+            },
             ImageLinks: {
                 type: DataTypes.STRING,
                 allowNull: false,
@@ -26,22 +33,22 @@ module.exports = (sequelize) => {
                     notNull: { msg: "ImageLinks is required" },
                 },
             },
-            TitleIntro: {
+            Title: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
                     notNull: { msg: "TitleIntro is required" },
                 },
             },
-            NameComic: {
+            Author: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
                     notNull: { msg: "NameComic is required" },
                 },
             },
-            Rating: {
-                type: DataTypes.FLOAT,
+            Chapters: {
+                type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
                     notNull: { msg: "Rating is required" },
