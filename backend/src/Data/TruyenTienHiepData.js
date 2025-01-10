@@ -1,13 +1,17 @@
-const express = require('express');
-const axios = require('axios');
-const cheerio = require('cheerio');
+const express = require('express'); // Thư viện ExpressJS
+const axios = require('axios'); // Thư viện gửi HTTP request
+const cheerio = require('cheerio'); // Thư viện xử lý HTML
+const pLimit = require('p-limit'); // Thư viện giới hạn số lượng yêu cầu đồng thời
 
 // Khai báo URL
 const nameType = 'truyen-tien-hiep';
 const url = `https://truyenfull.tv/${nameType}/`;
 
+// Giới hạn số lượng yêu cầu đồng thời
+const limit = pLimit(5); // Giới hạn 50 yêu cầu đồng thời
+
 // Hàm lấy HTML từ URL
-async function getHTML() {
+async function getHTML(url) {
     try {
         const { data: html } = await axios.get(url);
         return html;
@@ -22,46 +26,66 @@ const RunCrawler = async () => {
     // Tạo mảng rỗng để chứa dữ liệu
     const ComicData = [];
 
-    const res = await getHTML();
-    if (!res) {
-        console.error("Failed to fetch HTML content.");
-        return [];
+    // Tạo mảng chứa các URL cần crawl
+    const urls = [];
+    for (let i = 1; i <= 61; i++) { // Crawl 61 trang
+        const urlPage = i === 1 ? url : `${url}trang-${i}/`;
+        urls.push(urlPage);
     }
 
-    const $ = cheerio.load(res);
+    // Sử dụng p-limit để giới hạn số lượng yêu cầu đồng thời
+    const crawlTasks = urls.map(url => limit(() => getHTML(url)));
+    const htmls = await Promise.all(crawlTasks);
 
-    // Lấy link ảnh
-    const ImageLinks = [];
-    $('.row').map((i, element) => {
-        const src = $(element).find('.col-list-image img').attr('src');
-        if (src) {
-            ImageLinks.push(src);
+    // Duyệt qua từng trang
+    htmls.forEach((html, index) => {
+        if (!html) {
+            console.error(`Failed to fetch HTML content for page ${index + 1}.`);
+            return;
         }
-    });
 
-    console.log("[ImageLinks]", ImageLinks);
+        const $ = cheerio.load(html);
 
-    // Duyệt qua từng phần tử `.row`
-    $('.row').each((i, element) => {
 
-        // Lấy tiêu đề truyện
-        const Title = $(element).find('.truyen-title').text().trim();
+        // const ImageLinks = [];
+        // $('.row').map((i, element) => {
+        //     const src = $(element).find('.col-list-image > div').children('div').eq(0).attr('data-image');
+        //     if (src) {
+        //         ImageLinks.push(src);
+        //     }
+        // });
 
-        // Lấy tên tác giả
-        const Author = $(element).find('.glyphicon-pencil').parent().text().trim();
+        // console.log(`[ImageLinks] Page ${index + 1}:`, ImageLinks);
 
-        // Lấy số chương
-        const Chapters = $(element).find('.glyphicon-list').parent().text().trim();
+        // Duyệt qua từng phần tử .row
+        $('.row').each((i, element) => {
 
-        // Chỉ thêm vào mảng nếu có tiêu đề
-        if (Title) {
-            ComicData.push({
-                Title,
-                Author: Author || 'Unknown',
-                Chapters: Chapters || '0 chương',
-                ImageLinks: ImageLinks[i] || 'N/A', // Liên kết ảnh cho từng truyện
-            });
-        }
+            // Lấy link ảnh
+            const ImageLinks = $(element).find('.col-list-image > div').children('div').eq(0).attr('data-image');
+
+            // Lấy tiêu đề truyện
+            const Title = $(element).find('.truyen-title').text().trim();
+
+            // LinkComic: Lấy link truyện dùng để crawl
+            const LinkComic = $(element).find('.truyen-title a').attr('href');
+
+            // Lấy tên tác giả
+            const Author = $(element).find('.glyphicon-pencil').parent().text().trim();
+
+            // Lấy số chương
+            const Chapters = $(element).find('.glyphicon-list').parent().text().trim();
+
+            // Chỉ thêm vào mảng nếu có tiêu đề
+            if (Title) {
+                ComicData.push({
+                    Title,
+                    Author: Author || 'Unknown',
+                    LinkComic: LinkComic || 'N/A', // Link truyện dùng để crawl
+                    Chapters: Chapters || '0 chương',
+                    ImageLinks: ImageLinks || 'N/A', // Liên kết ảnh cho từng truyện
+                });
+            }
+        });
     });
 
     // Kiểm tra kết quả

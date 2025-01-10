@@ -38,17 +38,21 @@ const InitTruyenTienHiep = async () => {
                 // Nếu chưa tồn tại, lưu dữ liệu vào cơ sở dữ liệu
                 const result = await TruyenTienHiep.create({
                     Slug,
-                    ImageLinks: item.ImageLinks ? item.ImageLinks[0] : "N/A",
+                    ImageLinks: item.ImageLinks || "N/A",
                     Title: item.Title || "Unknown",
+                    LinkComic: item.LinkComic || "N/A",
                     Author: item.Author || "Unknown",
                     Chapters: item.Chapters || "Unknown",
                 });
 
                 console.warn("Data saved successfully:", result.toJSON());
             } else {
-                console.log(`Slug already exists: ${Slug}`);
+                // console.log(`Slug already exists: ${Slug}`);
             }
         }
+
+        console.log('Init TruyenTienHiep successfully: TruyenTienHiep');
+
     } catch (error) {
         console.error("Error saving to database:", error);
         console.error(`Error saving to database:": ${Slug}`);
@@ -58,3 +62,5 @@ const InitTruyenTienHiep = async () => {
 module.exports = {
     InitTruyenTienHiep,
 };
+
+// ImageLinks: item.ImageLinks ? item.ImageLinks[0] : "N/A",

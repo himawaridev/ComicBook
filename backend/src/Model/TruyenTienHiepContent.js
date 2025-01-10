@@ -33,13 +33,6 @@ module.exports = (sequelize) => {
                     notNull: { msg: "ImageLinks is required" },
                 },
             },
-            TitleIntro: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                validate: {
-                    notNull: { msg: "TitleIntro is required" },
-                },
-            },
             NameComic: {
                 type: DataTypes.STRING,
                 allowNull: false,
@@ -75,11 +68,11 @@ module.exports = (sequelize) => {
                     notNull: { msg: "Author is required" },
                 },
             },
-            GenresArray: {
+            Genres: {
                 type: DataTypes.JSON,
                 allowNull: false,
                 validate: {
-                    notNull: { msg: "GenresArray is required" },
+                    notNull: { msg: "Genres is required" },
                 },
             },
             Status: {

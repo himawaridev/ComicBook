@@ -40,6 +40,13 @@ module.exports = (sequelize) => {
                     notNull: { msg: "TitleIntro is required" },
                 },
             },
+            LinkComic: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notNull: { msg: "TitleIntro is required" },
+                },
+            },
             Author: {
                 type: DataTypes.STRING,
                 allowNull: false,
@@ -53,7 +60,8 @@ module.exports = (sequelize) => {
                 validate: {
                     notNull: { msg: "Rating is required" },
                 },
-            }
+            },
+            // StatusCrawler: Number // 0: Đang cập nhật, 1: Full ?? fixx this heres
         },
         {
             sequelize,

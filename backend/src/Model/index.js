@@ -19,7 +19,8 @@ const sequelize = new Sequelize(
     process.env.MYSQL_PASSWORD,  // Mật khẩu cơ sở dữ liệu từ biến môi trường.
     {
         host: process.env.MYSQL_URL, // Địa chỉ máy chủ cơ sở dữ liệu từ biến môi trường.
-        dialect: 'mysql'            // Loại cơ sở dữ liệu là MySQL.
+        dialect: 'mysql',            // Loại cơ sở dữ liệu là MySQL.
+        logging: false
     }
 );
 // Khởi tạo một kết nối mới với cơ sở dữ liệu MySQL bằng Sequelize.

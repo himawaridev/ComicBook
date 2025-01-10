@@ -23,7 +23,7 @@ const Categories = async () => {
             }
         })));
 
-        console.error('Init Categories successfully: Categories');
+        console.log('Init Categories successfully: Categories');
         // Ghi log khi quá trình khởi tạo hoàn tất thành công.
 
     } catch (err) {

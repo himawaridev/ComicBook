@@ -1,27 +1,28 @@
-const express = require('express');
-const axios = require('axios');
-const cheerio = require('cheerio');
-const fs = require('fs');
+const express = require('express'); // Thư viện ExpressJS
+const axios = require('axios'); // Thư viện gửi HTTP request
+const cheerio = require('cheerio'); // Thư viện xử lý HTML
+const pLimit = require('p-limit'); // Thư viện giới hạn số lượng yêu cầu đồng thời
 
-const nameType = 'phong-than-chau-f2.23745';
-const url = `https://truyenfull.tv/${nameType}/`; // URL của truyện
+// const nameType = 'vu-luyen-dien-phong-vo-luyen-dinh-phong-f3.5842';
+// const url = `https://truyenfull.tv/${nameType}/`; // URL của truyện
 
 
 // Hàm lấy HTML từ URL
-async function getHTML() {
+async function getHTML(_url) {
     try {
-        const { data: html } = await axios.get(url); // Gửi request HTTP GET đến URL
+        const { data: html } = await axios.get(_url);
         return html;
     } catch (error) {
         console.error("Error fetching HTML:", error.message);
-        return null; // Trả về null nếu có lỗi
+        return null;
     }
 }
 
 // Hàm xử lý crawl nội dung từ HTML
-const RunCrawlerContent = async () => {
+const RunCrawlerContent = async (urlInput) => {
     const ComicDataContent = []; // Mảng lưu dữ liệu của truyện
-    const res = await getHTML(); // Lấy HTML từ URL
+
+    const res = await getHTML(urlInput); // Lấy HTML từ URL
     if (!res) {
         console.error("Failed to fetch HTML content.");
         return;
@@ -30,50 +31,39 @@ const RunCrawlerContent = async () => {
     const $ = cheerio.load(res); // Load HTML vào cheerio để xử lý
 
     // ---------------------------- //
+    // ImageLinks: Lấy link ảnh
+    const ImageLinks = $('.book img').attr('src');
 
-    // Lấy hình ảnh của truyện
-    const ImageLinks = [] || 'N/A';
-
-    $('.book img').map((i, element) => {
-        const src = $(element).attr('src'); // Lấy giá trị của thuộc tính src
-        if (src) {
-            ImageLinks.push(src); // Thêm link vào mảng
-        }
-    });
-
-    // Lấy tiêu đề của truyện
-    const TitleIntro = $('.book-intro h2').text().trim() || 'N/A';
-
-    // Lấy tên truyện
+    // NameComic: Lấy tên của truyện    
     const NameComic = $('.title').text().trim() || 'N/A';
 
-    // Lấy rate truyện
+    // Rating: Lấy rate truyện
     const Rating = $('span[itemprop="ratingValue"]').text().trim() || 'N/A';
+
+    // RatingCount: Lấy số lượng rate truyện
     const RatingCount = $('span[itemprop="ratingCount"]').text().trim() || 'N/A';
 
-    // Lấy mô tả của truyện
-    const Description = $('.desc-text').text().trim();
+    // Description: Lấy mô tả của truyện
+    const Description = $('.desc-text').text().trim() || 'N/A';
 
-    // Lấy tác giả
-    const Author = $('.info a[itemprop="author"]').text().trim();
+    // Author: Lấy tên tác giả
+    const Author = $('.info a[itemprop="author"]').text().trim() || 'N/A';
 
-    // Lấy thể loại
-    const GenresArray = [];
+    // Genres: Lấy thể loại của truyện
+    const Genres = [];
 
     $('div h3:contains("Thể loại")').nextAll('a').map((i, element) => {
-        const Link = $(element).attr('href'); // Lấy giá trị href
-        const Text = $(element).text().trim(); // Lấy text bên trong thẻ <a>
+        const Link = $(element).attr('href'); // Lấy đường dẫn các thể loại
+        const Text = $(element).text().trim(); // lấy tên các thể loại
         if (Link && Text) {
-            GenresArray.push({ Link, Text }); // Lưu vào mảng
+            Genres.push({ Link, Text }); // Lưu vào mảng
         }
     });
 
-    // console.error("[Check GenresArray]", GenresArray);
+    // Status: Lấy trạng thái của truyện
+    const Status = $('.info .text-primary').text().trim() || $('.info .text-success').text().trim();
 
-    // Lấy trạng thái
-    const Status = $('.info .text-primary').text().trim() || 'N/A';
-
-    // Mảng lưu thông tin các tag
+    // Tags: Mảng lưu thông tin các tag
     const Tags = [];
 
     $('div h3:contains("Tags")').nextAll('a').map((i, element) => {
@@ -83,9 +73,8 @@ const RunCrawlerContent = async () => {
             Tags.push({ Link, Text }); // Lưu vào mảng
         }
     });
-    // console.error("[Check Tags]", Tags);
 
-    // Mảng lưu thông tin các chương
+    // Chapters: Mảng lưu thông tin các chương
     const Chapters = [];
 
     $('.list-chapter li a').each((i, element) => {
@@ -93,24 +82,23 @@ const RunCrawlerContent = async () => {
         const Text = $(element).find('.chapter-text span').text().trim(); // Lấy nội dung bên trong .chapter-text span
         const Number = $(element).text().replace(Text, '').trim(); // Lấy số chương bằng cách loại bỏ Text khỏi tổng nội dung
 
+        const ConcatLink = Text.concat(' ', Number);
+
         if (Link && Text) {
             // Lưu dữ liệu chương vào mảng
-            Chapters.push({ Link, Text, Number });
+            Chapters.push({ Link, ConcatLink });
         }
     });
-
-    // console.error("[Check Chapters]", Chapters);
 
     // Thêm dữ liệu vào mảng ComicDataContent
     ComicDataContent.push({
         ImageLinks,
-        TitleIntro,
         NameComic,
         Rating,
         RatingCount,
         Description,
         Author,
-        GenresArray,
+        Genres,
         Status,
         Tags,
         Chapters,

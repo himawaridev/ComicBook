@@ -17,8 +17,8 @@ const removeVietnameseTones = (str) => {
 
 
 
-const InitTruyenTienHiepContent = async () => {
-    const DataTruyenTienHiepContent = await RunCrawlerContent();
+const InitTruyenTienHiepContent = async (linkTruyen) => {
+    const DataTruyenTienHiepContent = await RunCrawlerContent(linkTruyen);
 
     if (!DataTruyenTienHiepContent) {
         console.error("DataTruyenTienHiepContent: No data to save");
@@ -38,14 +38,13 @@ const InitTruyenTienHiepContent = async () => {
             if (!checkExists) {
                 const result = await TruyenTienHiepContent.create({
                     Slug,
-                    ImageLinks: item.ImageLinks ? item.ImageLinks[0] : "N/A",
-                    TitleIntro: item.TitleIntro || "No intro available",
+                    ImageLinks: item.ImageLinks || "N/A",
                     NameComic: item.NameComic || "Unknown",
                     Rating: parseFloat(item.Rating) || 0,
                     RatingCount: parseInt(item.RatingCount, 10) || 0,
                     Description: item.Description || "No description available",
                     Author: item.Author || "Unknown",
-                    GenresArray: item.GenresArray || [],
+                    Genres: item.Genres || [],
                     Status: item.Status || "Unknown",
                     Tags: Array.isArray(item.Tags) ? item.Tags : [],
                     Chapters: Array.isArray(item.Chapters) ? item.Chapters : [],
@@ -53,15 +52,19 @@ const InitTruyenTienHiepContent = async () => {
 
                 console.warn("Data saved successfully:", result.toJSON());
             } else {
-                console.log(`Slug already exists: ${Slug}`)
+                // console.log(`Slug already exists: ${Slug}`)
             }
         }
+
+        console.log('Init TruyenTienHiepContent successfully: TruyenTienHiepContent');
 
     } catch (error) {
         console.error("Error saving to database:", error);
         console.error(`Error saving to database:": ${Slug}`);
     }
 };
+
+console.log("InitTruyenTienHiepContent:", InitTruyenTienHiepContent);
 
 module.exports = {
     InitTruyenTienHiepContent,
