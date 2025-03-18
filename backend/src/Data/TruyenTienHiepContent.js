@@ -3,14 +3,14 @@ const axios = require('axios'); // Thư viện gửi HTTP request
 const cheerio = require('cheerio'); // Thư viện xử lý HTML
 const pLimit = require('p-limit'); // Thư viện giới hạn số lượng yêu cầu đồng thời
 
-// const nameType = 'vu-luyen-dien-phong-vo-luyen-dinh-phong-f3.5842';
-// const url = `https://truyenfull.tv/${nameType}/`; // URL của truyện
+const nameType = 'vu-luyen-dien-phong-vo-luyen-dinh-phong-f3.5842';
+const url = `https://truyenfull.tv/${nameType}/`; // URL của truyện
 
 
 // Hàm lấy HTML từ URL
-async function getHTML(_url) {
+async function getHTML() {
     try {
-        const { data: html } = await axios.get(_url);
+        const { data: html } = await axios.get(url); // Gửi yêu cầu HTTP GET đến URL
         return html;
     } catch (error) {
         console.error("Error fetching HTML:", error.message);
@@ -19,10 +19,10 @@ async function getHTML(_url) {
 }
 
 // Hàm xử lý crawl nội dung từ HTML
-const RunCrawlerContent = async (urlInput) => {
+const RunCrawlerContent = async () => {
     const ComicDataContent = []; // Mảng lưu dữ liệu của truyện
 
-    const res = await getHTML(urlInput); // Lấy HTML từ URL
+    const res = await getHTML(); // Lấy HTML từ URL
     if (!res) {
         console.error("Failed to fetch HTML content.");
         return;
@@ -103,6 +103,12 @@ const RunCrawlerContent = async (urlInput) => {
         Tags,
         Chapters,
     });
+
+    // Kiểm tra kết quả
+    if (Chapters.length === 0) {
+        console.error("No data found. Please check the URL structure. Data/TruyenTienHiepContent.js");
+        return [];
+    }
 
     // UnLock this line to see the data:
     // console.log("[TruyenTienHiepDataContent]", ComicDataContent); // In dữ liệu đã crawl

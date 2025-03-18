@@ -134,3 +134,23 @@
 //     ChapterLinks.push({ ChapterLink });
 // }
 // console.log("[Check ChapterLinks]", ChapterLinks);
+
+
+console.log('server');
+
+// console.log(listTruyen)
+// console.log(QueryTruyenTienHiep)
+
+
+// if (!QueryTruyenTienHiep) {
+//     console.log("[ - - - Không có dữ liệu truyện trong bảng TruyenTienHiep - - - ]")
+// }
+
+// const ResultsQueryTruyenTienHiep = await Promise.all(
+//     QueryTruyenTienHiep.map(async (item) => { }),
+// )
+
+// const save = QueryTruyenTienHiep.map(async (item) => {
+//     const data = await RunCrawler(item.url);
+//     // console.log(data);
+// })

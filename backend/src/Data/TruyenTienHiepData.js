@@ -3,12 +3,13 @@ const axios = require('axios'); // Thư viện gửi HTTP request
 const cheerio = require('cheerio'); // Thư viện xử lý HTML
 const pLimit = require('p-limit'); // Thư viện giới hạn số lượng yêu cầu đồng thời
 
+const CTTH = require('../Controller/TruyenTienHiepController');
 // Khai báo URL
 const nameType = 'truyen-tien-hiep';
 const url = `https://truyenfull.tv/${nameType}/`;
 
 // Giới hạn số lượng yêu cầu đồng thời
-const limit = pLimit(5); // Giới hạn 50 yêu cầu đồng thời
+const limit = pLimit(5); // Giới hạn 5 yêu cầu đồng thời
 
 // Hàm lấy HTML từ URL
 async function getHTML(url) {
@@ -46,17 +47,6 @@ const RunCrawler = async () => {
 
         const $ = cheerio.load(html);
 
-
-        // const ImageLinks = [];
-        // $('.row').map((i, element) => {
-        //     const src = $(element).find('.col-list-image > div').children('div').eq(0).attr('data-image');
-        //     if (src) {
-        //         ImageLinks.push(src);
-        //     }
-        // });
-
-        // console.log(`[ImageLinks] Page ${index + 1}:`, ImageLinks);
-
         // Duyệt qua từng phần tử .row
         $('.row').each((i, element) => {
 
@@ -78,7 +68,7 @@ const RunCrawler = async () => {
             // Chỉ thêm vào mảng nếu có tiêu đề
             if (Title) {
                 ComicData.push({
-                    Title,
+                    Title: Title || 'N/A', // Tiêu đề truyện
                     Author: Author || 'Unknown',
                     LinkComic: LinkComic || 'N/A', // Link truyện dùng để crawl
                     Chapters: Chapters || '0 chương',
@@ -90,7 +80,7 @@ const RunCrawler = async () => {
 
     // Kiểm tra kết quả
     if (ComicData.length === 0) {
-        console.error("No data found. Please check the URL structure.");
+        console.error("No data found. Please check the URL structure. Data/TruyenTienHiepData.js");
         return [];
     }
 

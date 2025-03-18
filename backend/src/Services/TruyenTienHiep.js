@@ -15,7 +15,7 @@ const removeVietnameseTones = (str) => {
 };
 
 
-// Hàm khởi tạo Truyện Tiên Hiệp
+// Hàm khởi tạo Truyện Tiên Hiệp  some thing ?? fix this linktruyen no come from
 const InitTruyenTienHiep = async () => {
     const DataTruyenTienHiep = await RunCrawler();
 
@@ -34,33 +34,31 @@ const InitTruyenTienHiep = async () => {
             // Kiểm tra xem slug đã tồn tại hay chưa
             const checkExists = await TruyenTienHiep.findOne({ where: { Slug } });
 
+            // Nếu chưa tồn tại, lưu dữ liệu vào cơ sở dữ liệu
             if (!checkExists) {
-                // Nếu chưa tồn tại, lưu dữ liệu vào cơ sở dữ liệu
                 const result = await TruyenTienHiep.create({
-                    Slug,
+                    Slug: item.Slug || "N/A",
                     ImageLinks: item.ImageLinks || "N/A",
-                    Title: item.Title || "Unknown",
-                    LinkComic: item.LinkComic || "N/A",
-                    Author: item.Author || "Unknown",
-                    Chapters: item.Chapters || "Unknown",
+                    Title: item.Title || "No Title available",
+                    LinkComic: item.LinkComic || "No LinkComic available",
+                    Author: item.Author || "No author available",
+                    Chapters: item.Chapters || "No chapters available",
                 });
 
-                console.warn("Data saved successfully:", result.toJSON());
+                console.log("Data đã lưu thành công:", result.toJSON());
             } else {
                 // console.log(`Slug already exists: ${Slug}`);
             }
         }
 
-        console.log('Init TruyenTienHiep successfully: TruyenTienHiep');
+        console.log('Khởi tạo TruyenTienHiep thành công: Service/TruyenTienHiep.js');
 
     } catch (error) {
-        console.error("Error saving to database:", error);
-        console.error(`Error saving to database:": ${Slug}`);
+        console.error("Không thể lưu data:", error);
+        console.error(`Không thể lưu data:": ${Slug}`);
     }
 };
 
 module.exports = {
     InitTruyenTienHiep,
 };
-
-// ImageLinks: item.ImageLinks ? item.ImageLinks[0] : "N/A",

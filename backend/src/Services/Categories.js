@@ -23,12 +23,11 @@ const Categories = async () => {
             }
         })));
 
-        console.log('Init Categories successfully: Categories');
+        console.log('Khởi tạo Categories thành công: Service/Categories.js');
         // Ghi log khi quá trình khởi tạo hoàn tất thành công.
 
-    } catch (err) {
-        console.error('Init Categories error', err)
-        // Xử lý lỗi nếu xảy ra trong quá trình khởi tạo.
+    } catch (error) {
+        console.error('Không thể lưu data:', error)
     };
 };
 

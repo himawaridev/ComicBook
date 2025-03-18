@@ -16,10 +16,13 @@ const removeVietnameseTones = (str) => {
 };
 
 
+// Khỏi tạo dữ liệu TruyenTienHiepContent đợi hàm RunCrawlerContent chạy xong
+const InitTruyenTienHiepContent = async () => {
 
-const InitTruyenTienHiepContent = async (linkTruyen) => {
-    const DataTruyenTienHiepContent = await RunCrawlerContent(linkTruyen);
+    // Chạy hàm RunCrawlerContent, đợi xong thì hàm InitTruyenTienHiepContent mới chạy
+    const DataTruyenTienHiepContent = await RunCrawlerContent();
 
+    // Check xem có dữ liệu không, nếu không thì báo lỗi
     if (!DataTruyenTienHiepContent) {
         console.error("DataTruyenTienHiepContent: No data to save");
         return;
@@ -35,36 +38,35 @@ const InitTruyenTienHiepContent = async (linkTruyen) => {
             // Kiểm tra xem slug đã tồn tại hay chưa
             const checkExists = await TruyenTienHiepContent.findOne({ where: { Slug } });
 
+            // Nếu chưa tồn tại, lưu dữ liệu vào cơ sở dữ liệu
             if (!checkExists) {
                 const result = await TruyenTienHiepContent.create({
-                    Slug,
+                    Slug: item.Slug || "N/A",
                     ImageLinks: item.ImageLinks || "N/A",
-                    NameComic: item.NameComic || "Unknown",
+                    NameComic: item.NameComic || "No NameComic available",
                     Rating: parseFloat(item.Rating) || 0,
                     RatingCount: parseInt(item.RatingCount, 10) || 0,
                     Description: item.Description || "No description available",
-                    Author: item.Author || "Unknown",
+                    Author: item.Author || "No author available",
                     Genres: item.Genres || [],
-                    Status: item.Status || "Unknown",
+                    Status: item.Status || "No status available",
                     Tags: Array.isArray(item.Tags) ? item.Tags : [],
                     Chapters: Array.isArray(item.Chapters) ? item.Chapters : [],
                 });
 
-                console.warn("Data saved successfully:", result.toJSON());
+                console.log("Data đã lưu thành công:", result.toJSON());
             } else {
-                // console.log(`Slug already exists: ${Slug}`)
+                // console.log(`Slug already exists : ${Slug}`)
             }
         }
 
-        console.log('Init TruyenTienHiepContent successfully: TruyenTienHiepContent');
+        console.log('Khởi tạo TruyenTienHiepContent thành công: Service/TruyenTienHiepContent.js');
 
     } catch (error) {
-        console.error("Error saving to database:", error);
-        console.error(`Error saving to database:": ${Slug}`);
+        console.error("Không thể lưu data:", error);
+        console.error(`Không thể lưu data:": ${Slug}`);
     }
 };
-
-console.log("InitTruyenTienHiepContent:", InitTruyenTienHiepContent);
 
 module.exports = {
     InitTruyenTienHiepContent,
