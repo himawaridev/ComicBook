@@ -44,7 +44,7 @@ const Demo: React.FC = () => {
 
     return (
         <div className="grid grid-cols-3 gap-4">
-            {demo.length > 0 ? RenderDemo() : <p>Đang tải dữ liệu...</p>}
+            {demo.length > 0 ? RenderDemo() : <p>Loading data...</p>}
         </div>
     );
 };
