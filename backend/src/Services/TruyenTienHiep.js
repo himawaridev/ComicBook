@@ -45,9 +45,9 @@ const InitTruyenTienHiep = async () => {
                     Chapters: item.Chapters || "No chapters available",
                 });
 
-                console.log("Data đã lưu thành công:", result.toJSON());
+                // console.log("Data đã lưu thành công:", result.toJSON());
             } else {
-                // console.log(`Slug already exists: ${Slug}`);
+                console.log(`Slug already exists: ${Slug}`);
             }
         }
 

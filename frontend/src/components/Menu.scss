@@ -7,14 +7,8 @@
 
     .Logo {
         display: flex;
-
-        .LogoColor {
-            color: white;
-            font-size: 30px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            color: #ab91c0;
-        }
+        height: 40px !important;
+        width: auto !important;
     }
 
     .ContentMenu {
@@ -39,6 +33,10 @@
 
         .MenuTitle {
             display: flex;
+        }
+
+        .WhenActive {
+            color: aqua;
         }
 
         .ActiveMenuTitle {

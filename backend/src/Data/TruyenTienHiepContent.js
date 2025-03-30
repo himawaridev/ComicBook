@@ -3,9 +3,8 @@ const axios = require('axios'); // Thư viện gửi HTTP request
 const cheerio = require('cheerio'); // Thư viện xử lý HTML
 const pLimit = require('p-limit'); // Thư viện giới hạn số lượng yêu cầu đồng thời
 
-const nameType = 'vu-luyen-dien-phong-vo-luyen-dinh-phong-f3.5842';
-const url = `https://truyenfull.tv/${nameType}/`; // URL của truyện
-
+const nameType = 'vo-thuong-sat-than.102';
+const url = `https://truyenhoan.com/${nameType}/`; // URL của truyện
 
 // Hàm lấy HTML từ URL
 async function getHTML() {

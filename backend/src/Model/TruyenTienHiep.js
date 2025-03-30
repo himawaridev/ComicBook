@@ -22,6 +22,7 @@ module.exports = (sequelize) => {
             Slug: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                defaultValue: '', // 🔹 Thêm giá trị mặc định
                 validate: {
                     notNull: { msg: "ImageLinks is required" },
                 },

@@ -1,48 +1,38 @@
-import { ReactNode } from "react";
-//
-interface TypeSetting {
-    mode: string;
-    yes: ReactNode;
-    no: ReactNode;
+import { useContext } from "react";
+import { ThemeContext } from "@/Context/ThemeContext";
+
+interface SettingProps {
+    onClose: () => void; // Nhận onClose từ props
 }
 
-const Setting: React.FC = () => {
-    const ListSetting: TypeSetting[] = [
-        {
-            mode: "Chế độ ban đêm",
-            yes: (
-                <div className="ChooseType">
-                    <input className="Radio" type="radio"></input>
-                    <div className="ChooseTypeText">Có</div>
-                </div>
-            ),
-            no: (
-                <div className="ChooseType">
-                    <input className="Radio" type="radio"></input>
-                    <div className="ChooseTypeText">Không</div>
-                </div>
-            ),
-        },
-    ];
-
-    const RenderSetting: React.FC = () => {
-        return (
-            <div>
-                {ListSetting.map((item, index) => (
-                    <div key={index} className="setting-item">
-                        <div className="setting-mode">{item.mode}</div>
-                        <div className="setting-yes-no">
-                            <span>{item.yes}</span>  <span>{item.no}</span>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        );
-    };
+const Setting: React.FC<SettingProps> = ({ onClose }) => {
+    const { theme, toggleTheme } = useContext(ThemeContext);
 
     return (
-        <div id="Setting">
-            <RenderSetting />
+        <div id="Setting" onClick={onClose}>
+            <div className="setting-item">
+                <div className="setting-mode">Chế độ ban đêm</div>
+                <div className="setting-yes-no">
+                    <label className="ChooseType">
+                        <input
+                            className="Radio"
+                            type="radio"
+                            checked={theme === "dark"}
+                            onChange={toggleTheme}
+                        />
+                        <div className="ChooseTypeText">Có</div>
+                    </label>
+                    <label className="ChooseType">
+                        <input
+                            className="Radio"
+                            type="radio"
+                            checked={theme === "light"}
+                            onChange={toggleTheme}
+                        />
+                        <div className="ChooseTypeText">Không</div>
+                    </label>
+                </div>
+            </div>
         </div>
     );
 };

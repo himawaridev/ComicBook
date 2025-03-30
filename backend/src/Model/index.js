@@ -13,17 +13,28 @@ const basename = path.basename(__filename);
 const db = {};
 // Tạo một đối tượng trống `db` để lưu trữ các model và thông tin kết nối cơ sở dữ liệu.
 
+require('dotenv').config();
+// Tải các biến môi trường từ file `.env` vào `process.env`.
+// Điều này cho phép bạn sử dụng các biến môi trường trong ứng dụng của mình.
+
 const sequelize = new Sequelize(
-    process.env.MYSQL_DB_NAME,    // Tên cơ sở dữ liệu từ biến môi trường.
-    process.env.MYSQL_USERNAME,  // Tên người dùng cơ sở dữ liệu từ biến môi trường.
-    process.env.MYSQL_PASSWORD,  // Mật khẩu cơ sở dữ liệu từ biến môi trường.
+    process.env.MYSQL_DB_NAME || 'comic', // Tên cơ sở dữ liệu từ biến môi trường.
+    process.env.MYSQL_USERNAME || 'root', // Tên người dùng cơ sở dữ liệu từ biến môi trường.
+    process.env.MYSQL_PASSWORD || '123456', // Mật khẩu cơ sở dữ liệu từ biến môi trường.
     {
         host: process.env.MYSQL_URL, // Địa chỉ máy chủ cơ sở dữ liệu từ biến môi trường.
         dialect: 'mysql',            // Loại cơ sở dữ liệu là MySQL.
-        logging: false,
-    }
+        port: process.env.MYSQL_PORT || 3306, // Cổng kết nối cơ sở dữ liệu từ biến môi trường.
+        logging: false, // Tắt logging của Sequelize.(Có thể bật lại nếu cần)
+    },
 );
 // Khởi tạo một kết nối mới với cơ sở dữ liệu MySQL bằng Sequelize.
+// Check các biến môi trường để lấy thông tin kết nối.
+console.log("DB MYSQL_DB_NAME:", process.env.MYSQL_DB_NAME);
+console.log("DB MYSQL_USERNAME:", process.env.MYSQL_USERNAME);
+console.log("DB PASSWORD:", process.env.MYSQL_PASSWORD);
+console.log("DB MYSQL_URL:", process.env.MYSQL_URL);
+console.log("DB MYSQL_PORT:", process.env.MYSQL_PORT);
 
 fs
     .readdirSync(__dirname) // Đọc danh sách tất cả các file trong thư mục hiện tại.

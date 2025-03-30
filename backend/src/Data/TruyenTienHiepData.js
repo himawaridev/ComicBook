@@ -3,10 +3,9 @@ const axios = require('axios'); // Thư viện gửi HTTP request
 const cheerio = require('cheerio'); // Thư viện xử lý HTML
 const pLimit = require('p-limit'); // Thư viện giới hạn số lượng yêu cầu đồng thời
 
-const CTTH = require('../Controller/TruyenTienHiepController');
 // Khai báo URL
-const nameType = 'truyen-tien-hiep';
-const url = `https://truyenfull.tv/${nameType}/`;
+const nameType = 'truyen-tien-hiep/hoan';
+const url = `https://truyenhoan.com/${nameType}/`;
 
 // Giới hạn số lượng yêu cầu đồng thời
 const limit = pLimit(5); // Giới hạn 5 yêu cầu đồng thời
@@ -51,7 +50,7 @@ const RunCrawler = async () => {
         $('.row').each((i, element) => {
 
             // Lấy link ảnh
-            const ImageLinks = $(element).find('.col-list-image > div').children('div').eq(0).attr('data-image');
+            const ImageLinks = $(element).find('.col-list-image > div').children('div').eq(0).attr('data-desk-image');
 
             // Lấy tiêu đề truyện
             const Title = $(element).find('.truyen-title').text().trim();

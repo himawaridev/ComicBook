@@ -1,35 +1,30 @@
+// Import model TruyenTienHiep từ thư mục Model
 const { TruyenTienHiep } = require('../Model');
 
-// Tách hàm xử lý dữ liệu ra ngoài để tái sử dụng
-const processTruyenData = (ListComic) => {
-    const result = ListComic.map((truyen, index) => ({
-        index: index + 1,
-        Slug: truyen.Slug,
-        ImageLinks: truyen.ImageLinks,
-        Title: truyen.Title,
-        LinkComic: truyen.LinkComic,
-        Author: truyen.Author,
-        Chapters: truyen.Chapters,
-    }));
-    // console.log(result);
-    return result;
-};
-
-const CTTH = async () => {
+const getTruyenTienHiepController = async (req, res) => {
     try {
-        const QueryTruyenTienHiep = await TruyenTienHiep.findAll({
-            attributes: ['Slug', 'ImageLinks', 'Title', 'LinkComic', 'Author', 'Chapters'], // Chỉ lấy các trường cần thiết
+        let { page, limit } = req.query;
+        page = parseInt(page) || 1000; // Mặc định trang là 10 nếu không có giá trị
+        limit = parseInt(limit) || 10;  // Mặc định lấy 25 bản ghi mỗi trang nếu không có giá trị
+        const offset = (page - 1) * limit; // Tính toán offset dựa trên trang hiện tại và số lượng bản ghi mỗi trang
+
+        const { count, rows } = await TruyenTienHiep.findAndCountAll({
+            limit,
+            offset,
+            order: [['id', 'ASC']] // Sắp xếp theo id giảm dần
+            // Sắp xếp theo ngày tạo mới nhất : createdAt DESC
+            // order: [['createdAt', 'DESC']]
+            // order: [['id', 'DESC']]
+            // order: [['id', 'ASC']]
         });
 
-        // Xử lý dữ liệu bằng hàm `processTruyenData`
-        const processedData = processTruyenData(QueryTruyenTienHiep);
-
-        // Trả về dữ liệu đã xử lý
-        // console.log('TruyenTienHiepController:', processedData);
-        return processedData;
+        return res.status(200).json({ TruyenTienHiepController: rows, total: count });
     } catch (error) {
-        console.error('Lỗi khi truy vấn dữ liệu:', error);
-        throw error; // Ném lỗi ra ngoài để xử lý ở nơi khác nếu cần
+        return res.status(500).json({ error: error.message });
     }
 };
-module.exports = { CTTH }; // Export hàm CTTH
+
+module.exports = {
+    getTruyenTienHiepController
+};
+

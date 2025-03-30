@@ -1,28 +1,34 @@
 'use client';
 import { ReactNode, useState } from "react";
-import { UnorderedListOutlined, CaretDownOutlined, SettingOutlined } from "@ant-design/icons";
+import Image from "next/image";
+import Link from "next/link";
 
 // Import components:
 import Search from "@/ListContentMenu/Search";
 import ListDanhMuc from "@/ListContentMenu/ListDanhMuc";
 import ListTheLoai from "@/ListContentMenu/ListTheLoai";
-import Setting from "@/ListContentMenu/Setting"
+import Setting from "@/ListContentMenu/Setting";
 
 // Import scss:
 import "@/components/Menu.scss";
+import ComicLogo from "@/Images/ComicLogo.png";
 
 interface ListMenu {
     id: number;
     name: string;
-    title: ReactNode; // Component tương ứng cho từng mục
-    component: ReactNode; // Component tương ứng cho từng mục
+    title: ReactNode; // Tiêu đề của menu
+    component: ReactNode; // Component tương ứng với menu
 }
 
 const Menu: React.FC = () => {
-    const [activeMenuId, setActiveMenuId] = useState<number | null>(null); // Quản lý trạng thái menu được chọn
+    const [activeMenuId, setActiveMenuId] = useState<number | null>(null); // Menu đang mở
 
-    const toggleMenu = (id: number) => {
-        setActiveMenuId(activeMenuId === id ? null : id); // Đóng nếu đã mở, mở nếu đang đóng
+    const toggleMenu = (id: number | null) => {
+        setActiveMenuId(activeMenuId === id ? null : id);
+    };
+
+    const closeMenu = () => {
+        setActiveMenuId(null);
     };
 
     const listMenu: ListMenu[] = [
@@ -30,52 +36,67 @@ const Menu: React.FC = () => {
             id: 1,
             name: "Logo",
             title: (
-                <div className="Logo">
-                    <div className="LogoColor Logo1">C</div>
-                    <div className="LogoColor Logo2">O</div>
-                    <div className="LogoColor Logo3">M</div>
-                    <div className="LogoColor Logo4">I</div>
-                    <div className="LogoColor Logo5">C</div>
-                    <div className="LogoColor Logo6">.VN</div>
-                </div>
+                <Link href="/">
+                    <Image
+                        src={ComicLogo}
+                        className="Logo"
+                        width={500}
+                        height={147}
+                        alt="Logo of the author"
+                    />
+                </Link>
             ),
-            component: null, // Không có nội dung hiển thị
+            component: null,
         },
         {
             id: 2,
             name: "DanhSach",
             title: (
                 <div className="ContentMenu">
-                    <UnorderedListOutlined />
                     <div className="TextContentMenu">Danh sách</div>
-                    <CaretDownOutlined />
                 </div>
             ),
-            component: <ListDanhMuc />,
+            component: <ListDanhMuc onClose={closeMenu} />, // Truyền hàm đóng modal vào component con
         },
         {
             id: 3,
             name: "TheLoai",
             title: (
                 <div className="ContentMenu">
-                    <UnorderedListOutlined />
                     <div className="TextContentMenu">Thể loại</div>
-                    <CaretDownOutlined />
                 </div>
             ),
-            component: <ListTheLoai />,
+            component: <ListTheLoai onClose={closeMenu} />,
         },
         {
             id: 4,
-            name: "TuyChinh",
+            name: "Setting",
             title: (
                 <div className="ContentMenu">
-                    <SettingOutlined />
-                    <div className="TextContentMenu">Tuỳ chỉnh</div>
-                    <CaretDownOutlined />
+                    <div className="TextContentMenu">Setting</div>
                 </div>
             ),
-            component: <Setting />,
+            component: <Setting onClose={closeMenu} />,
+        },
+        {
+            id: 5,
+            name: "Docs",
+            title: (
+                <div className="ContentMenu">
+                    <Link href="/" className="TextContentMenu">Docs</Link>
+                </div>
+            ),
+            component: <></>,
+        },
+        {
+            id: 6,
+            name: "API",
+            title: (
+                <div className="ContentMenu">
+                    <Link href="/" className="TextContentMenu">API</Link>
+                </div>
+            ),
+            component: <></>,
         },
     ];
 
@@ -90,12 +111,16 @@ const Menu: React.FC = () => {
                         >
                             {item.title}
                         </div>
-                        <div style={{ position: 'absolute' }}>
-                            {/* Hiện nội dung nếu menu được chọn */}
-                            {activeMenuId === item.id && item.component && (
-                                <div className="MenuContent">{item.component}</div>
-                            )}
-                        </div>
+                        {/* Nội dung dropdown */}
+                        {activeMenuId === item.id && item.component && (
+                            <div
+                                className="MenuContent"
+                                onClick={closeMenu} // Khi click vào nội dung, đóng menu
+                                style={{ position: 'absolute' }}
+                            >
+                                {item.component}
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>

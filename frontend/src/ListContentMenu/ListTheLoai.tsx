@@ -7,13 +7,17 @@ interface ContentTheLoai {
     link: string;
 }
 
-const ListTheLoai: React.FC = () => {
+interface ListTheLoaiProps {
+    onClose: () => void;
+}
+
+const ListTheLoai: React.FC<ListTheLoaiProps> = ({ onClose }) => {
 
     const ContentTheLoai: ContentTheLoai[] = [
         {
             id: 1,
             title: 'Tiên Hiệp',
-            link: '/TienHiep'
+            link: '/TruyenTienHiep'
         },
         {
             id: 2,
@@ -216,7 +220,7 @@ const ListTheLoai: React.FC = () => {
     );
 
     return (
-        <div id="ListTheLoai">
+        <div id="ListTheLoai" onClick={onClose}>
             <div>{RenderListTheLoai(ContentTheLoai)}</div>
             <div>{RenderListTheLoai(ContentTheLoai1)}</div>
             <div>{RenderListTheLoai(ContentTheLoai2)}</div>

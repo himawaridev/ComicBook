@@ -9,8 +9,11 @@ interface ContentDanhMuc {
     link: string,
 }
 
-const ListDanhMuc: React.FC = () => {
+interface ListDanhMucProps {
+    onClose: () => void;
+}
 
+const ListDanhMuc: React.FC<ListDanhMucProps> = ({ onClose }) => {
 
     const ContentDanhMuc: ContentDanhMuc[] = [
         {
@@ -140,7 +143,7 @@ const ListDanhMuc: React.FC = () => {
     }
 
     return (
-        <div id="ListDanhMuc"><RenderContentDanhMuc /></div>
+        <div id="ListDanhMuc" onClick={onClose}><RenderContentDanhMuc /></div>
     );
 };
 export default ListDanhMuc;

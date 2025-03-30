@@ -1,14 +1,14 @@
 #Search {
     display: flex;
     align-items: center;
-    background-color: rgb(56, 56, 56);
+    background-color: rgb(255, 255, 255);
     padding: 7px 7px 7px 7px;
 
     .InputSearch {
         outline: none;
         border: none;
-        background-color: rgb(56, 56, 56);
-        color: white;
+        background-color: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
     }
 
     .Icon {

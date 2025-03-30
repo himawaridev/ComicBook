@@ -9,9 +9,31 @@ body {
   -khtml-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
+  -ms-overflow-style: none !important;
+  -webkit-scrollbar: none !important;
   user-select: none !important;
-  background-color: #1f1f1f;
+  background-color: rgb(218, 218, 218);
+  color: rgb(78, 78, 78) !important;
+  font-size: 15px;
 }
+
+/* body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body.light {
+  --foreground: #333;
+  --background: #f9f9f9;
+}
+
+body.dark {
+  --foreground: #fff;
+  --background: #333;
+} */
 
 body {
   color: var(--foreground);
