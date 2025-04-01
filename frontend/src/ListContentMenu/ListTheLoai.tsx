@@ -1,9 +1,16 @@
-import Link from "next/link";
-import "@/ListContentMenu/ListTheLoai.scss";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Link from "next/link"; // Import Link để điều hướng trang
+import { Flex, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+
+// Import scss and any:
+import "@/ListContentMenu/ListTheLoai.scss"; // Import CSS
 
 interface ContentTheLoai {
-    id: number;
     title: string;
+    slug: string;
+    description: string;
     link: string;
 }
 
@@ -12,218 +19,72 @@ interface ListTheLoaiProps {
 }
 
 const ListTheLoai: React.FC<ListTheLoaiProps> = ({ onClose }) => {
+    const [theloai, setTheLoai] = useState<ContentTheLoai[]>([]);
 
-    const ContentTheLoai: ContentTheLoai[] = [
-        {
-            id: 1,
-            title: 'Tiên Hiệp',
-            link: '/TruyenTienHiep'
-        },
-        {
-            id: 2,
-            title: 'Đô Thị',
-            link: '/DoThi'
-        },
-        {
-            id: 3,
-            title: 'Khoa Huyễn',
-            link: '/KhoaHuyen'
-        },
-        {
-            id: 4,
-            title: 'Dị Năng',
-            link: '/DiNang'
-        },
-        {
-            id: 5,
-            title: 'Xuyên Không',
-            link: '/XuyenKhong'
-        },
-        {
-            id: 6,
-            title: 'Thám Hiểm',
-            link: '/ThamHiem'
-        },
-        {
-            id: 7,
-            title: 'Ngược',
-            link: '/Nguoc'
-        },
-        {
-            id: 8,
-            title: 'Nữ Cường',
-            link: '/NuCuong'
-        },
-        {
-            id: 9,
-            title: 'Đam Mỹ',
-            link: '/DamMy'
-        },
-        {
-            id: 10,
-            title: 'Điền Văn',
-            link: '/DienVan'
-        },
-        {
-            id: 11,
-            title: 'Truyện Teen',
-            link: '/TruyenTeen'
-        },
-        {
-            id: 12,
-            title: 'Light Novel',
-            link: '/LightNovel'
-        },
-        {
-            id: 13,
-            title: 'Khác',
-            link: '/Khac'
-        },
-    ];
+    useEffect(() => {
+        axios.get("http://localhost:8000/getTheLoaiTruyenController")
+            .then(response => {
+                console.log("[TheLoaiTruyenController] Data:", response.data);
+                if (response.data && Array.isArray(response.data.TheLoaiTruyenController)) {
+                    setTheLoai(response.data.TheLoaiTruyenController);
+                } else {
+                    console.error("Error: Unexpected API data format", response.data);
+                }
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+    }, []);
 
-    const ContentTheLoai1: ContentTheLoai[] = [
-        {
-            id: 1,
-            title: 'Tiên Hiệp',
-            link: '/TienHiep'
-        },
-        {
-            id: 2,
-            title: 'Đô Thị',
-            link: '/DoThi'
-        },
-        {
-            id: 3,
-            title: 'Khoa Huyễn',
-            link: '/KhoaHuyen'
-        },
-        {
-            id: 4,
-            title: 'Dị Năng',
-            link: '/DiNang'
-        },
-        {
-            id: 5,
-            title: 'Xuyên Không',
-            link: '/XuyenKhong'
-        },
-        {
-            id: 6,
-            title: 'Thám Hiểm',
-            link: '/ThamHiem'
-        },
-        {
-            id: 7,
-            title: 'Ngược',
-            link: '/Nguoc'
-        },
-        {
-            id: 8,
-            title: 'Nữ Cường',
-            link: '/NuCuong'
-        },
-        {
-            id: 9,
-            title: 'Đam Mỹ',
-            link: '/DamMy'
-        },
-        {
-            id: 10,
-            title: 'Điền Văn',
-            link: '/DienVan'
-        },
-        {
-            id: 11,
-            title: 'Truyện Teen',
-            link: '/TruyenTeen'
-        },
-        {
-            id: 12,
-            title: 'Light Novel',
-            link: '/LightNovel'
-        },
-    ];
+    const RenderListTheLoai = () => {
+        if (theloai.length === 0) {
+            return (
+                <Flex style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '500px', height: '50vh' }}>
+                    <Spin indicator={<LoadingOutlined spin />} size="large" />
+                </Flex>
+            );
+        }
 
-    const ContentTheLoai2: ContentTheLoai[] = [
-        {
-            id: 1,
-            title: 'Tiên Hiệp',
-            link: '/TienHiep'
-        },
-        {
-            id: 2,
-            title: 'Đô Thị',
-            link: '/DoThi'
-        },
-        {
-            id: 3,
-            title: 'Khoa Huyễn',
-            link: '/KhoaHuyen'
-        },
-        {
-            id: 4,
-            title: 'Dị Năng',
-            link: '/DiNang'
-        },
-        {
-            id: 5,
-            title: 'Xuyên Không',
-            link: '/XuyenKhong'
-        },
-        {
-            id: 6,
-            title: 'Thám Hiểm',
-            link: '/ThamHiem'
-        },
-        {
-            id: 7,
-            title: 'Ngược',
-            link: '/Nguoc'
-        },
-        {
-            id: 8,
-            title: 'Nữ Cường',
-            link: '/NuCuong'
-        },
-        {
-            id: 9,
-            title: 'Đam Mỹ',
-            link: '/DamMy'
-        },
-        {
-            id: 10,
-            title: 'Điền Văn',
-            link: '/DienVan'
-        },
-        {
-            id: 11,
-            title: 'Truyện Teen',
-            link: '/TruyenTeen'
-        },
-        {
-            id: 12,
-            title: 'Light Novel',
-            link: '/LightNovel'
-        },
-    ];
+        // Chia danh sách thành 3 cột
+        const columnSize = Math.ceil(theloai.length / 3);
+        const TypeTruyenLeft = theloai.slice(0, columnSize);
+        const TypeTruyenMiddle = theloai.slice(columnSize, columnSize * 2);
+        const TypeTruyenRight = theloai.slice(columnSize * 2);
 
-    const RenderListTheLoai = (contentList: ContentTheLoai[]) => (
-        <div>
-            {contentList.map((item) => (
-                <div className="ContentTheLoai" key={item.id}>
-                    <Link className="ContentTheLoaiLink" href={item.link}>
-                        <div className="InLink">{item.title}</div>
-                    </Link>
+        return (
+            <div className="list-container">
+                <div className="list-column">
+                    {TypeTruyenLeft.map((item, index) => (
+                        <Link key={index} href={item.link} className="list-item">
+                            <div>
+                                <span>{item.title}</span>
+                            </div>
+                        </Link>
+                    ))}
                 </div>
-            ))}
-        </div>
-    );
+                <div className="list-column">
+                    {TypeTruyenMiddle.map((item, index) => (
+                        <Link key={index} href={item.link} className="list-item">
+                            <div>
+                                <span>{item.title}</span>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+                <div className="list-column">
+                    {TypeTruyenRight.map((item, index) => (
+                        <Link key={index} href={item.link} className="list-item">
+                            <div>
+                                <span>{item.title}</span>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </div>
+        );
+    };
 
     return (
         <div id="ListTheLoai" onClick={onClose}>
-            <div>{RenderListTheLoai(ContentTheLoai)}</div>
-            <div>{RenderListTheLoai(ContentTheLoai1)}</div>
-            <div>{RenderListTheLoai(ContentTheLoai2)}</div>
+            {RenderListTheLoai()}
         </div>
     );
 };

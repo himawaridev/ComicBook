@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { Pagination, Flex, Spin } from "antd";
-import { XFilled, EditFilled, ReadFilled, LoadingOutlined } from "@ant-design/icons";
+import { Pagination } from "antd";
+import { XFilled, EditFilled, ReadFilled } from "@ant-design/icons";
+import { LoadingOutlined } from '@ant-design/icons';
+import { Flex, Spin } from 'antd';
 
 // Import scss and any:
-import "@/app/TruyenTienHiep/TruyenTienHiepComponent.scss";
+import "@/app/TruyenKiemHiep/TruyenKiemHiepComponent.scss";
 
-interface TruyenTienHiepComponentType {
+interface TruyenKiemHiepComponentType {
     id: number;
     Slug: string;
     ImageLinks: string;
@@ -21,8 +23,8 @@ interface TruyenTienHiepComponentType {
     updatedAt: string;
 }
 
-const TruyenTienHiepComponent: React.FC = () => {
-    const [data, setData] = useState<TruyenTienHiepComponentType[]>([]);
+const TruyenKiemHiepComponent: React.FC = () => {
+    const [data, setData] = useState<TruyenKiemHiepComponentType[]>([]);
     const [isloading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -37,11 +39,11 @@ const TruyenTienHiepComponent: React.FC = () => {
 
     const fetchData = (page: number) => {
         setIsLoading(true);
-        axios.get(`http://localhost:8000/getTruyenTienHiepController?page=${page}&limit=${pageSize}`)
+        axios.get(`http://localhost:8000/getTruyenKiemHiepController?page=${page}&limit=${pageSize}`)
             .then((response) => {
                 console.log("API Response:", response.data);
-                if (response.data && Array.isArray(response.data.TruyenTienHiepController)) {
-                    setData(response.data.TruyenTienHiepController);
+                if (response.data && Array.isArray(response.data.TruyenKiemHiepController)) {
+                    setData(response.data.TruyenKiemHiepController);
                     setTotalItems(response.data.total || 0); // Tổng số truyện
                 } else {
                     setError("Dữ liệu không hợp lệ!");
@@ -81,8 +83,8 @@ const TruyenTienHiepComponent: React.FC = () => {
     };
 
     return (
-        <div id="TruyenTienHiepComponent">
-            <div className="TruyenTienHiepComponentTitle">
+        <div id="TruyenKiemHiepComponent">
+            <div className="TruyenKiemHiepComponentTitle">
                 <div className="TitleName">TRUYỆN TIÊN HIỆP HOÀN</div>
                 <div className="Button">
                     <div className="ButtonTogether ButtonSelective">CHỌN LỌC</div>
@@ -95,15 +97,15 @@ const TruyenTienHiepComponent: React.FC = () => {
 
             <div className="">
                 {data.map((item, index) => (
-                    <div key={index} className="TruyenTienHiepComponentContent">
+                    <div key={index} className="TruyenKiemHiepComponentContent">
                         <Image
                             src={item.ImageLinks}
                             width={190}
                             height={90}
                             alt={item.Title}
-                            className="TruyenTienHiepComponentImages"
+                            className="TruyenKiemHiepComponentImages"
                         />
-                        <div className="TruyenTienHiepComponentInformation">
+                        <div className="TruyenKiemHiepComponentInformation">
                             <div className="InformationAll">
                                 <XFilled />
                                 <Link href="/" className="Title InformationAllText">{item.Title}</Link>
@@ -128,11 +130,11 @@ const TruyenTienHiepComponent: React.FC = () => {
                     total={totalItems}
                     pageSize={pageSize}
                     onChange={(page) => setCurrentPage(page)}
-                    showSizeChanger={false} // Ẩn thay đổi số item trên mỗi trang
+                    showSizeChanger={false}
                 />
             </div>
         </div>
     );
 };
 
-export default TruyenTienHiepComponent;
+export default TruyenKiemHiepComponent;

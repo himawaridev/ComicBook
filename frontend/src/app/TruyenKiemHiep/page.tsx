@@ -1,15 +1,15 @@
 'use client';
-import React, { useEffect, useState } from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
 import { Flex, Spin } from 'antd';
 // Import components and any :
-import TruyenTienHIepComponent from "@/app/TruyenTienHiep/TruyenTienHiepComponent";
+import TruyenKiemHIepComponent from "@/app/TruyenKiemHiep/TruyenKiemHiepComponent";
 import TypeTruyen from "@/Types/TypeTruyen";
 
 // Import scss and any:
-import "@/app/TruyenTienHiep/page.scss";
+import "@/app/TruyenKiemHiep/page.scss";
 
-const TruyenTienHiep: React.FC = () => {
+const TruyenKiemHiep: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     // Giả lập việc tải các thư viện hoặc CSS
@@ -29,10 +29,10 @@ const TruyenTienHiep: React.FC = () => {
         // Hiển thị loader trong khi chờ tải
     }
     return (
-        <div id="TruyenTienHiep">
-            <TruyenTienHIepComponent />
+        <div id="TruyenKiemHiep">
+            <TruyenKiemHIepComponent />
             <TypeTruyen />
         </div>
     )
 }
-export default TruyenTienHiep;
+export default TruyenKiemHiep;

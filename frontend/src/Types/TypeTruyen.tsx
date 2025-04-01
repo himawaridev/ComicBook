@@ -31,7 +31,7 @@ const theLoaiTruyen: TypeTruyenInterface[] = [
     { id: 19, title: "Truyện Dã Sử", link: "/TruyenDaSu" },
     { id: 20, title: "Truyện Hệ Thống", link: "/TruyenHeThong" },
     { id: 21, title: "Truyện Hiện Đại", link: "/TruyenHienDai" },
-    { id: 22, title: "Truyện Kiếm", link: "/TruyenKiem" },
+    { id: 22, title: "Truyện Kiếm", link: "/TruyenKiemHiep" },
     { id: 23, title: "Truyện Quan", link: "/TruyenQuan" },
     { id: 24, title: "Truyện Trinh", link: "/TruyenTrinh" },
     { id: 25, title: "Truyện Linh Dị", link: "/TruyenLinhDi" },

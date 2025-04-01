@@ -1,18 +1,22 @@
 #ListTheLoai {
     display: flex;
-    padding: 5px 0px 5px 0px;
+    justify-content: center;
 
-    .ContentTheLoai {
-    }
+    .list-container {
+        display: flex;
+        margin: 10px;
 
-    .ContentTheLoai:hover {
-        background-color: #14425d;
-        cursor: pointer;
-    }
+        .list-column {
+            display: flex;
+            flex-direction: column;
 
-    .ContentTheLoaiLink {
-        .InLink {
-            padding: 8px 35px 8px 15px;
+            .list-item {
+                padding: 8px 10px 8px 10px;
+
+                &:hover {
+                    background-color: #14425d;
+                }
+            }
         }
     }
 }

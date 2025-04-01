@@ -2,15 +2,10 @@
 // const axios = require('axios');
 // const cheerio = require('cheerio');
 // const pLimit = require('p-limit');
+// const THELOAITRUYEN_DEFAULT = require('../Data/TheLoaiTruyenData.json');
 
-// // Khai báo URL
-// const nameType = 'truyen-tien-hiep';
-// const url = `https://truyenfull.tv/${nameType}/`;
+// const limit = pLimit(5);
 
-// // Giới hạn số lượng yêu cầu đồng thời
-// const limit = pLimit(50); // Giới hạn 50 yêu cầu đồng thời
-
-// // Hàm lấy HTML từ URL
 // async function getHTML(url) {
 //     try {
 //         const { data: html } = await axios.get(url);
@@ -21,23 +16,19 @@
 //     }
 // }
 
-// // Hàm crawl dữ liệu
-// const RunCrawler = async () => {
-//     // Tạo mảng rỗng để chứa dữ liệu
+// const CrawlTruyenTheoTheLoai = async (slug) => {
+//     const url = `https://truyenhoan.com/${slug}/hoan/`;
 //     const ComicData = [];
-
-//     // Tạo mảng chứa các URL cần crawl
 //     const urls = [];
-//     for (let i = 1; i <= 61; i++) { // Crawl 61 trang
+
+//     for (let i = 1; i <= 70; i++) {
 //         const urlPage = i === 1 ? url : `${url}trang-${i}/`;
 //         urls.push(urlPage);
 //     }
 
-//     // Sử dụng p-limit để giới hạn số lượng yêu cầu đồng thời
 //     const crawlTasks = urls.map(url => limit(() => getHTML(url)));
 //     const htmls = await Promise.all(crawlTasks);
 
-//     // Duyệt qua từng trang
 //     htmls.forEach((html, index) => {
 //         if (!html) {
 //             console.error(`Failed to fetch HTML content for page ${index + 1}.`);
@@ -46,111 +37,42 @@
 
 //         const $ = cheerio.load(html);
 
-//         // Lấy link ảnh
-//         const ImageLinks = [];
-//         $('.row').map((i, element) => {
-//             const src = $(element).find('.col-list-image img').attr('src');
-//             if (src) {
-//                 ImageLinks.push(src);
-//             }
-//         });
-
-//         console.log(`[ImageLinks] Page ${index + 1}:`, ImageLinks);
-
-//         // Duyệt qua từng phần tử .row
 //         $('.row').each((i, element) => {
-
-//             // Lấy tiêu đề truyện
+//             const ImageLinks = $(element).find('.col-list-image > div').children('div').eq(0).attr('data-desk-image');
 //             const Title = $(element).find('.truyen-title').text().trim();
-
-//             // Lấy tên tác giả
+//             const LinkComic = $(element).find('.truyen-title a').attr('href');
 //             const Author = $(element).find('.glyphicon-pencil').parent().text().trim();
-
-//             // Lấy số chương
 //             const Chapters = $(element).find('.glyphicon-list').parent().text().trim();
 
-//             // Chỉ thêm vào mảng nếu có tiêu đề
 //             if (Title) {
 //                 ComicData.push({
-//                     Title,
+//                     Title: Title || 'N/A',
 //                     Author: Author || 'Unknown',
+//                     LinkComic: LinkComic || 'N/A',
 //                     Chapters: Chapters || '0 chương',
-//                     ImageLinks: ImageLinks[i] || 'N/A', // Liên kết ảnh cho từng truyện
+//                     ImageLinks: ImageLinks || 'N/A',
 //                 });
 //             }
 //         });
 //     });
 
-//     // Kiểm tra kết quả
 //     if (ComicData.length === 0) {
-//         console.error("No data found. Please check the URL structure.");
+//         console.error(`No data found for slug: ${slug}. Please check the URL structure.`);
 //         return [];
 //     }
-
-//     // UnLock this line to see the data:
-//     // console.log("[TruyenTienHiepData.js]", ComicData);
 
 //     return ComicData;
 // };
 
-// // Xuất module
-// module.exports = {
-//     RunCrawler,
+// const CrawlAllCategories = async () => {
+//     for (const category of THELOAITRUYEN_DEFAULT) {
+//         console.log(`Fetching data for category: ${category.slug}`);
+//         const data = await CrawlTruyenTheoTheLoai(category.slug);
+//         console.log(`Fetched ${data.length} stories for category: ${category.slug}`);
+//     }
 // };
 
-
-// ????????????? //
-
-// $('.list-chapter li a').each((i, element) => {
-//     const Link = $(element).attr('href'); // Lấy giá trị href
-//     const Text = $(element).find('.chapter-text span').text().trim(); // Lấy nội dung bên trong .chapter-text span
-//     const Number = $(element).text().replace(Text, '').trim(); // Lấy số chương bằng cách loại bỏ Text khỏi tổng nội dung
-
-//     if (Link && Text) {
-//         // Lưu dữ liệu chương vào mảng
-//         Chapters.push({ Link, Text, Number });
-//     }
-// });
-
-// // ChapterText: Mảng lưu thông tin các chương
-// const ChapterTexts = [];
-// $('.list-chapter li a').each((i, element) => {
-//     const ChapterText = $(element).text().trim(); // Lấy toàn bộ nội dung văn bản
-
-//     ChapterTexts.push({ ChapterText }); // Thêm dữ liệu vào mảng
-// });
-
-// console.log("[Check ChapterTexts: =>]", ChapterTexts);
-
-// // ChapterLinks: Mảng lưu thông tin các chương
-// const ChapterLinks = [];
-// let chapterStart = 1; // Bạn có thể thay đổi số chương bắt đầu này
-// let chapterEnd = 10; // Bạn có thể thay đổi số chương kết thúc này
-
-// for (let i = chapterStart; i <= chapterEnd; i++) {
-//     const ChapterLink = `https://truyenfull.tv/vu-luyen-dien-phong-vo-luyen-dinh-phong/chuong-${i}.html`;
-
-//     // Lưu dữ liệu chương vào mảng
-//     ChapterLinks.push({ ChapterLink });
-// }
-// console.log("[Check ChapterLinks]", ChapterLinks);
-
-
-console.log('server');
-
-// console.log(listTruyen)
-// console.log(QueryTruyenTienHiep)
-
-
-// if (!QueryTruyenTienHiep) {
-//     console.log("[ - - - Không có dữ liệu truyện trong bảng TruyenTienHiep - - - ]")
-// }
-
-// const ResultsQueryTruyenTienHiep = await Promise.all(
-//     QueryTruyenTienHiep.map(async (item) => { }),
-// )
-
-// const save = QueryTruyenTienHiep.map(async (item) => {
-//     const data = await RunCrawler(item.url);
-//     // console.log(data);
-// })
+// module.exports = {
+//     CrawlAllCategories,
+//     CrawlTruyenTheoTheLoai,
+// };

@@ -5,8 +5,8 @@ const { Model, DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
     // Xuất một hàm nhận đối tượng Sequelize để định nghĩa model.
 
-    class Category extends Model {
-        // Khai báo class `Category` kế thừa từ Sequelize `Model`.
+    class TheLoaiTruyen extends Model {
+        // Khai báo class `TheLoaiTruyen` kế thừa từ Sequelize `Model`.
 
         /**
          * Helper method for defining associations.
@@ -18,8 +18,8 @@ module.exports = (sequelize) => {
         }
     }
 
-    // Khởi tạo cấu trúc của model `Category` với các thuộc tính (fields).
-    Category.init(
+    // Khởi tạo cấu trúc của model `TheLoaiTruyen` với các thuộc tính (fields).
+    TheLoaiTruyen.init(
         {
             // Thuộc tính `title` với kiểu dữ liệu là chuỗi.
             title: {
@@ -64,8 +64,8 @@ module.exports = (sequelize) => {
             freezeTableName: true,
             // Sử dụng đúng tên bảng được chỉ định, không tự động đổi sang số nhiều.
 
-            tableName: "categories",
-            // Đặt tên bảng trong cơ sở dữ liệu là `categories`.
+            tableName: "TheLoaiTruyen",
+            // Đặt tên bảng trong cơ sở dữ liệu là `TheLoaiTruyen`.
 
             timestamps: true,
             // Tự động thêm các trường `createdAt` và `updatedAt` vào bảng.
@@ -75,6 +75,6 @@ module.exports = (sequelize) => {
         }
     );
 
-    return Category;
-    // Trả về model `Category` để sử dụng ở các module khác.
+    return TheLoaiTruyen;
+    // Trả về model `TheLoaiTruyen` để sử dụng ở các module khác.
 };

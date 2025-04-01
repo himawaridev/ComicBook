@@ -14,6 +14,10 @@ console.log("DB USER server:", process.env.PORT_SERVER_RUN); // Kiểm tra xem b
 
 // Import router from Router:
 const TruyenTienHiepRouter = require('./Router/TruyenTienHiepRouter');
+const TheLoaiTruyenRouter = require('./Router/TheLoaiTruyenRouter');
+const TruyenKiemHiepRouter = require('./Router/TruyenKiemHiepRouter');
+const TruyenMoiCapNhatRouter = require('./Router/TruyenMoiCapNhatRouter');
+const TruyenHotRouter = require('./Router/TruyenHotRouter');
 
 // ------------------------ Use app ------------------------ //
 app.use(cors());
@@ -21,6 +25,10 @@ app.use(express.json());
 
 // ------------------------ Use router ------------------------ //
 app.use('/', TruyenTienHiepRouter);
+app.use('/', TheLoaiTruyenRouter);
+app.use('/', TruyenKiemHiepRouter);
+app.use('/', TruyenMoiCapNhatRouter);
+app.use('/', TruyenHotRouter);
 
 // ------------------------ Khởi động Server ------------------------ //
 const Server = async () => {
@@ -64,7 +72,7 @@ const Server = async () => {
         // }
 
         //------------------------------ Start server ------------------------------//
-        const PORT = process.env.PORT_SERVER_RUN || 8888;
+        const PORT = process.env.PORT_SERVER_RUN || 8000;
         app.listen(PORT, () => {
             console.log('-----------------------------------------------------------------------');
             console.log(`[🚀 Server] is running on port ${PORT}`);

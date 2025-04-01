@@ -1,4 +1,4 @@
-const { RunCrawlerContent } = require('../Data/TruyenTienHiepContent');
+const { RunCrawlerContent } = require('../Data/TruyenTienHiepContentData');
 const { TruyenTienHiepContent } = require('../Model');
 
 // Hàm tạo slug từ tiêu đề
@@ -17,9 +17,9 @@ const removeVietnameseTones = (str) => {
 
 
 // Khỏi tạo dữ liệu TruyenTienHiepContent đợi hàm RunCrawlerContent chạy xong
-const InitTruyenTienHiepContent = async () => {
+const TruyenTienHiepContentService = async () => {
 
-    // Chạy hàm RunCrawlerContent, đợi xong thì hàm InitTruyenTienHiepContent mới chạy
+    // Chạy hàm RunCrawlerContent, đợi xong thì hàm TruyenTienHiepContentService mới chạy
     const DataTruyenTienHiepContent = await RunCrawlerContent();
 
     // Check xem có dữ liệu không, nếu không thì báo lỗi
@@ -69,5 +69,5 @@ const InitTruyenTienHiepContent = async () => {
 };
 
 module.exports = {
-    InitTruyenTienHiepContent,
+    TruyenTienHiepContentService,
 };

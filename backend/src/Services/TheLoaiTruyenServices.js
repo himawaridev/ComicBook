@@ -1,29 +1,28 @@
 const { where } = require('sequelize');
-const { Category } = require('../Model');
-// Import model `Category` từ file `../Model`.
+const { TheLoaiTruyen } = require('../Model');// Import model `TheLoaiTruyen` từ file `../Model`.
 
-const CATEGORIES_DEFAULT = require('../Seeds/Categories.json');
+const THELOAITRUYEN_DEFAULT = require('../Data/TheLoaiTruyenData.json');
 // Import dữ liệu mặc định của các danh mục từ file JSON.
 
-const Categories = async () => {
+const TheLoaiTruyenServices = async () => {
     try {
-        // Sử dụng `Promise.all` để xử lý tất cả các mục trong mảng `CATEGORIES_DEFAULT` song song.
-        await Promise.all(CATEGORIES_DEFAULT.map((async (cate) => {
+        // Sử dụng `Promise.all` để xử lý tất cả các mục trong mảng `THELOAITRUYEN_DEFAULT` song song.
+        await Promise.all(THELOAITRUYEN_DEFAULT.map((async (cate) => {
             // console.log('[Cate: ]', cate)
             // Ghi log thông tin danh mục hiện tại (để debug hoặc kiểm tra quá trình xử lý).
 
-            const checkExits = await Category.findOne({ where: { slug: cate.slug } });
+            const checkExits = await TheLoaiTruyen.findOne({ where: { slug: cate.slug } });
             // Kiểm tra xem danh mục có tồn tại trong cơ sở dữ liệu hay không dựa trên `slug`.
 
             if (!checkExits) {
                 // Nếu danh mục không tồn tại, thêm mới vào cơ sở dữ liệu.
-                await Category.create({
+                await TheLoaiTruyen.create({
                     ...cate // Thêm toàn bộ thông tin từ đối tượng `cate`.
                 })
             }
         })));
 
-        console.log('Khởi tạo Categories thành công: Service/Categories.js');
+        console.log('Khởi tạo TheLoaiTruyen thành công: Service/TheLoaiTruyenService.js');
         // Ghi log khi quá trình khởi tạo hoàn tất thành công.
 
     } catch (error) {
@@ -32,6 +31,6 @@ const Categories = async () => {
 };
 
 module.exports = {
-    Categories
+    TheLoaiTruyenServices
 };
 

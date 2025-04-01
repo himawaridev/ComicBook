@@ -4,7 +4,7 @@ const cheerio = require('cheerio'); // Thư viện xử lý HTML
 const pLimit = require('p-limit'); // Thư viện giới hạn số lượng yêu cầu đồng thời
 
 // Khai báo URL
-const nameType = 'truyen-tien-hiep';
+const nameType = 'truyen-kiem-hiep';
 const url = `https://truyenhoan.com/${nameType}/hoan/`;
 
 // Giới hạn số lượng yêu cầu đồng thời
@@ -22,25 +22,24 @@ async function getHTML(url) {
 }
 
 // Hàm crawl dữ liệu
-const CrawlTruyenTienHiep = async () => {
-    // Tạo mảng rỗng để chứa dữ liệu
-    const TruyenTienHiepData = [];
+const CrawlTruyenKiemHiep = async () => {
+    const TruyenKiemHiepData = []; // Tạo mảng rỗng để chứa dữ liệu
 
     // Tạo mảng chứa các URL cần crawl
-    const urls = [];
+    const UrlData = [];
     for (let i = 1; i <= 70; i++) { // Crawl 61 trang
-        const urlPage = i === 1 ? url : `${url}trang-${i}/`;
-        urls.push(urlPage);
+        const UrlTrang = i === 1 ? url : `${url}trang-${i}/`;
+        UrlData.push(UrlTrang);
     }
 
     // Sử dụng p-limit để giới hạn số lượng yêu cầu đồng thời
-    const crawlTasks = urls.map(url => limit(() => getHTML(url)));
+    const crawlTasks = UrlData.map(url => limit(() => getHTML(url)));
     const htmls = await Promise.all(crawlTasks);
 
     // Duyệt qua từng trang
     htmls.forEach((html, index) => {
         if (!html) {
-            console.error(`Failed to fetch HTML content for page ${index + 1}.`);
+            console.error(`[❌ Fetch HTML] Failed to Fetch HTML content for page ${index + 1}.`);
             return;
         }
 
@@ -49,47 +48,47 @@ const CrawlTruyenTienHiep = async () => {
         // Duyệt qua từng phần tử .row
         $('.row').each((i, element) => {
 
-            // Lấy link ảnh
+            // ImageLinks: Lấy link ảnh:
             const ImageLinks = $(element).find('.col-list-image > div').children('div').eq(0).attr('data-desk-image');
 
-            // Lấy tiêu đề truyện
+            // Title: Lấy tiêu đề truyện:
             const Title = $(element).find('.truyen-title').text().trim();
 
-            // LinkComic: Lấy link truyện dùng để crawl
+            // LinkComic: Lấy link truyện dùng để crawl:
             const LinkComic = $(element).find('.truyen-title a').attr('href');
 
-            // Lấy tên tác giả
+            // Author: Lấy tên tác giả:
             const Author = $(element).find('.glyphicon-pencil').parent().text().trim();
 
-            // Lấy số chương
+            // Chapters: Lấy số chương:
             const Chapters = $(element).find('.glyphicon-list').parent().text().trim();
 
-            // Chỉ thêm vào mảng nếu có tiêu đề
+            // Chỉ thêm vào mảng nếu có tiêu đề:
             if (Title) {
-                TruyenTienHiepData.push({
-                    Title: Title || 'N/A', // Tiêu đề truyện
-                    Author: Author || 'Unknown',
-                    LinkComic: LinkComic || 'N/A', // Link truyện dùng để crawl
-                    Chapters: Chapters || '0 chương',
-                    ImageLinks: ImageLinks || 'N/A', // Liên kết ảnh cho từng truyện
+                TruyenKiemHiepData.push({
+                    Title: Title || 'Undefined Title', // Tiêu đề truyện
+                    Author: Author || 'Undefined Author', // Tên tác giả
+                    LinkComic: LinkComic || 'Undefined LinkComic', // Link truyện dùng để crawl
+                    Chapters: Chapters || 'Undefined Chapters', // Số chương
+                    ImageLinks: ImageLinks || 'Undefined ImageLinks', // Liên kết ảnh cho từng truyện
                 });
             }
         });
     });
 
     // Kiểm tra kết quả
-    if (TruyenTienHiepData.length === 0) {
-        console.error("No data found. Please check the URL structure. Data/TruyenTienHiepData.js");
+    if (TruyenKiemHiepData.length === 0) {
+        console.error("[❌ No data] Check the URL structure: Data/TruyenKiemHiepData.js");
         return [];
     }
 
     // UnLock this line to see the data:
-    // console.log("[TruyenTienHiepData.js]", TruyenTienHiepData);
+    // console.log("[TruyenKiemHiepData.js]", TruyenKiemHiepData);
 
-    return TruyenTienHiepData;
+    return TruyenKiemHiepData;
 };
 
 // Xuất module
 module.exports = {
-    CrawlTruyenTienHiep,
+    CrawlTruyenKiemHiep,
 };

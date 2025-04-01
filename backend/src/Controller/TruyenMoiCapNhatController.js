@@ -1,14 +1,14 @@
-// Import model TruyenTienHiep từ thư mục Model
-const { TruyenTienHiep } = require('../Model');
+// Import model TruyenMoiCapNhat từ thư mục Model
+const { TruyenMoiCapNhat } = require('../Model');
 
-const getTruyenTienHiepController = async (req, res) => {
+const getTruyenMoiCapNhatController = async (req, res) => {
     try {
         let { page, limit } = req.query;
         page = parseInt(page) || 1000; // Mặc định trang là 10 nếu không có giá trị
         limit = parseInt(limit) || 10;  // Mặc định lấy 25 bản ghi mỗi trang nếu không có giá trị
         const offset = (page - 1) * limit; // Tính toán offset dựa trên trang hiện tại và số lượng bản ghi mỗi trang
 
-        const { count, rows } = await TruyenTienHiep.findAndCountAll({
+        const { count, rows } = await TruyenMoiCapNhat.findAndCountAll({
             limit,
             offset,
             order: [['id', 'ASC']] // Sắp xếp theo id tăng dần
@@ -18,13 +18,13 @@ const getTruyenTienHiepController = async (req, res) => {
             // order: [['id', 'ASC']]
         });
 
-        return res.status(200).json({ TruyenTienHiepController: rows, total: count });
+        return res.status(200).json({ TruyenMoiCapNhatController: rows, total: count });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
 };
 
 module.exports = {
-    getTruyenTienHiepController
+    getTruyenMoiCapNhatController
 };
 

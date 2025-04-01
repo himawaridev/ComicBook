@@ -1,16 +1,23 @@
-const { Categories } = require('./Services/Categories');
-const { InitTruyenTienHiep } = require('./Services/TruyenTienHiep');
-const { InitTruyenTienHiepContent } = require('./Services/TruyenTienHiepContent');
+const { TheLoaiTruyenServices } = require('./Services/TheLoaiTruyenServices');
+
+// Services:
+const { InitTruyenTienHiep } = require('./Services/TruyenTienHiepServices');
+const { TruyenKiemHiepServices } = require('./Services/TruyenKiemHiepServices')
+const { TruyenMoiCapNhatServices } = require('./Services/TruyenMoiCapNhatServices');
+const { TruyenHotServices } = require('./Services/TruyenHotServices');
+
+// Services content:
+const { TruyenTienHiepContentService } = require('./Services/TruyenTienHiepContentServices');
 
 const initServices = async () => {
     let hasError = false;
 
     try {
-        await Categories();
-        console.log("[✅ Categories initialized]");
+        await TheLoaiTruyenServices();
+        console.log("[✅ TheLoaiTruyenServices initialized]");
         console.log('-----------------------------------------------------------------------');
     } catch (error) {
-        console.error("[❌ Categories failed]:", error.message);
+        console.error("[❌ TheLoaiTruyenServices failed]:", error.message);
         hasError = true;
     }
 
@@ -24,13 +31,42 @@ const initServices = async () => {
     }
 
     try {
-        await InitTruyenTienHiepContent();
-        console.log("[✅ InitTruyenTienHiepContent initialized]");
+        await TruyenTienHiepContentService();
+        console.log("[✅ TruyenTienHiepContentService initialized]");
         console.log('-----------------------------------------------------------------------');
     } catch (error) {
-        console.error("[❌ InitTruyenTienHiepContent failed]:", error.message);
+        console.error("[❌ TruyenTienHiepContentService failed]:", error.message);
         hasError = true;
     }
+
+    try {
+        await TruyenKiemHiepServices();
+        console.log("[✅ TruyenKiemHiepServices initialized]");
+        console.log('-----------------------------------------------------------------------');
+    } catch (error) {
+        console.error("[❌ TruyenKiemHiepServices failed]:", error.message);
+        hasError = true;
+    }
+
+    try {
+        await TruyenMoiCapNhatServices();
+        console.log("[✅ TruyenMoiCapNhatServices initialized]");
+        console.log('-----------------------------------------------------------------------');
+    } catch (error) {
+        console.error("[❌ TruyenMoiCapNhatServices failed]:", error.message);
+        hasError = true;
+    }
+
+    try {
+        await TruyenHotServices();
+        console.log("[✅ TruyenHotServices initialized]");
+        console.log('-----------------------------------------------------------------------');
+    } catch (error) {
+        console.error("[❌ TruyenHotServices failed]:", error.message);
+        hasError = true;
+    }
+
+    // Handle:
 
     if (hasError) {
         console.error("[❌ Server stopped due to initialization errors]");
