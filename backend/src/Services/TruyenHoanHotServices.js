@@ -1,5 +1,5 @@
-const { CrawlTruyenKiemHiep } = require('../Data/TruyenKiemHiepData');
-const { TruyenKiemHiep } = require('../Model');
+const { CrawlTruyenHoanHot } = require('../Data/TruyenHoanHotData');
+const { TruyenHoanHot } = require('../Model');
 
 // Hàm tạo slug từ tiêu đề
 const removeVietnameseTones = (str) => {
@@ -15,33 +15,31 @@ const removeVietnameseTones = (str) => {
 };
 
 // Hàm khởi tạo Truyện Tiên Hiệp  some thing ?? fix this linktruyen no come from
-const TruyenKiemHiepServices = async () => {
-    const DataTruyenKiemHiep = await CrawlTruyenKiemHiep();
+const TruyenHoanHotServices = async () => {
+    const DataTruyenHoanHot = await CrawlTruyenHoanHot();
 
-    if (!DataTruyenKiemHiep) {
-        console.error("DataTruyenKiemHiep: No data to save");
+    if (!DataTruyenHoanHot) {
+        console.error("DataTruyenHoanHot: No data to save");
         return;
     }
 
     try {
-        for (let i = 0; i < DataTruyenKiemHiep.length; i++) {
-            const item = DataTruyenKiemHiep[i];
+        for (let i = 0; i < DataTruyenHoanHot.length; i++) {
+            const item = DataTruyenHoanHot[i];
 
             // Nếu item.Slug không có giá trị thì tạo Slug từ Title
-            const Slug = item.Slug ? removeVietnameseTones(item.Slug) : removeVietnameseTones(item.Title || 'Unknown');
+            const Slug = item.Slug ? removeVietnameseTones(item.Slug) : removeVietnameseTones(item.NameComic || 'Unknown');
 
             // Kiểm tra xem slug đã tồn tại hay chưa
-            const checkExists = await TruyenKiemHiep.findOne({ where: { Slug } });
+            const checkExists = await TruyenHoanHot.findOne({ where: { Slug } });
 
             // Nếu chưa tồn tại, lưu dữ liệu vào cơ sở dữ liệu
             if (!checkExists) {
-                const result = await TruyenKiemHiep.create({
+                const result = await TruyenHoanHot.create({
                     Slug: Slug,
                     ImageLinks: item.ImageLinks || "N/A",
-                    Title: item.Title || "No Title available",
+                    NameComic: item.NameComic || "No NameComic available",
                     LinkComic: item.LinkComic || "No LinkComic available",
-                    Author: item.Author || "No author available",
-                    Chapters: item.Chapters || "No chapters available",
                 });
 
                 // console.log("Data đã lưu thành công:", result.toJSON());
@@ -50,7 +48,7 @@ const TruyenKiemHiepServices = async () => {
             }
         }
 
-        console.log('Khởi tạo TruyenKiemHiepService thành công: Service/TruyenKiemHiepService.js');
+        console.log('Khởi tạo TruyenHoanHotService thành công: Service/TruyenHoanHotService.js');
 
     } catch (error) {
         console.error("Không thể lưu data:", error);
@@ -59,5 +57,5 @@ const TruyenKiemHiepServices = async () => {
 };
 
 module.exports = {
-    TruyenKiemHiepServices,
+    TruyenHoanHotServices,
 };

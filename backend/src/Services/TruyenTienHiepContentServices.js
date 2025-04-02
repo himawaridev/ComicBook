@@ -32,8 +32,9 @@ const TruyenTienHiepContentService = async () => {
         for (let i = 0; i < DataTruyenTienHiepContent.length; i++) {
             const item = DataTruyenTienHiepContent[i];
 
-            // Tạo slug từ NameComic
-            const Slug = removeVietnameseTones(item.NameComic || 'Unknown');
+
+            // Nếu item.Slug không có giá trị thì tạo Slug từ Title
+            const Slug = item.Slug ? removeVietnameseTones(item.Slug) : removeVietnameseTones(item.NameComic || 'Unknown');
 
             // Kiểm tra xem slug đã tồn tại hay chưa
             const checkExists = await TruyenTienHiepContent.findOne({ where: { Slug } });
@@ -41,7 +42,7 @@ const TruyenTienHiepContentService = async () => {
             // Nếu chưa tồn tại, lưu dữ liệu vào cơ sở dữ liệu
             if (!checkExists) {
                 const result = await TruyenTienHiepContent.create({
-                    Slug: item.Slug || "N/A",
+                    Slug: Slug,
                     ImageLinks: item.ImageLinks || "N/A",
                     NameComic: item.NameComic || "No NameComic available",
                     Rating: parseFloat(item.Rating) || 0,
@@ -56,7 +57,7 @@ const TruyenTienHiepContentService = async () => {
 
                 // console.log("Data đã lưu thành công:", result.toJSON());
             } else {
-                console.log(`Slug already exists : ${Slug}`)
+                // console.log(`Slug already exists : ${Slug}`)
             }
         }
 

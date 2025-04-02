@@ -5,6 +5,7 @@ const { InitTruyenTienHiep } = require('./Services/TruyenTienHiepServices');
 const { TruyenKiemHiepServices } = require('./Services/TruyenKiemHiepServices')
 const { TruyenMoiCapNhatServices } = require('./Services/TruyenMoiCapNhatServices');
 const { TruyenHotServices } = require('./Services/TruyenHotServices');
+const { TruyenHoanHotServices } = require('./Services/TruyenHoanHotServices')
 
 // Services content:
 const { TruyenTienHiepContentService } = require('./Services/TruyenTienHiepContentServices');
@@ -63,6 +64,15 @@ const initServices = async () => {
         console.log('-----------------------------------------------------------------------');
     } catch (error) {
         console.error("[❌ TruyenHotServices failed]:", error.message);
+        hasError = true;
+    }
+
+    try {
+        await TruyenHoanHotServices();
+        console.log("[✅ TruyenHoanHotServices initialized]");
+        console.log('-----------------------------------------------------------------------');
+    } catch (error) {
+        console.error("[❌ TruyenHoanHotServices failed]:", error.message);
         hasError = true;
     }
 

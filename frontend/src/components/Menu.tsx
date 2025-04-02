@@ -116,7 +116,7 @@ const Menu: React.FC = () => {
                             <div
                                 className="MenuContent"
                                 onClick={closeMenu} // Khi click vào nội dung, đóng menu
-                                style={{ position: 'absolute' }}
+                                style={{ position: 'absolute', zIndex: '100' }}
                             >
                                 {item.component}
                             </div>

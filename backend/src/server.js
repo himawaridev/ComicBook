@@ -18,6 +18,7 @@ const TheLoaiTruyenRouter = require('./Router/TheLoaiTruyenRouter');
 const TruyenKiemHiepRouter = require('./Router/TruyenKiemHiepRouter');
 const TruyenMoiCapNhatRouter = require('./Router/TruyenMoiCapNhatRouter');
 const TruyenHotRouter = require('./Router/TruyenHotRouter');
+const TruyenHoanHot = require('./Router/TruyenHoanHotRouter')
 
 // ------------------------ Use app ------------------------ //
 app.use(cors());
@@ -29,6 +30,7 @@ app.use('/', TheLoaiTruyenRouter);
 app.use('/', TruyenKiemHiepRouter);
 app.use('/', TruyenMoiCapNhatRouter);
 app.use('/', TruyenHotRouter);
+app.use('/', TruyenHoanHot);
 
 // ------------------------ Khởi động Server ------------------------ //
 const Server = async () => {

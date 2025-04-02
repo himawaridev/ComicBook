@@ -1,6 +1,7 @@
 #ListTheLoai {
     display: flex;
     justify-content: center;
+    z-index: 100;
 
     .list-container {
         display: flex;
