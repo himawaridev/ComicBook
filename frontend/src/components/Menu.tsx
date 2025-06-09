@@ -1,7 +1,8 @@
 'use client';
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import React from 'react';
 
 // Import components:
 import Search from "@/ListContentMenu/Search";
@@ -22,6 +23,17 @@ interface ListMenu {
 
 const Menu: React.FC = () => {
     const [activeMenuId, setActiveMenuId] = useState<number | null>(null); // Menu đang mở
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Trạng thái menu trên di động
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth > 768) {
+                setIsMobileMenuOpen(false);
+            }
+        };
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     const toggleMenu = (id: number | null) => {
         setActiveMenuId(activeMenuId === id ? null : id);
@@ -30,6 +42,10 @@ const Menu: React.FC = () => {
     const closeMenu = () => {
         setActiveMenuId(null);
     };
+
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    }
 
     const listMenu: ListMenu[] = [
         {
@@ -103,7 +119,7 @@ const Menu: React.FC = () => {
     const RenderListMenu: React.FC = () => {
         return (
             <div className="MenuList">
-                {listMenu.map((item) => (
+                {listMenu.slice(1).map((item) => (
                     <div key={item.id} className="MenuItem">
                         <div
                             className="MenuTitle"
@@ -126,12 +142,43 @@ const Menu: React.FC = () => {
             </div>
         );
     };
+    const RenderListMenuLogo: React.FC = () => {
+        return (
+            <div className="MenuList">
+                {listMenu.slice(0, 1).map((item) => (
+                    <div key={item.id} className="MenuItem">
+                        <div
+                            className="MenuTitle"
+                            onClick={() => toggleMenu(item.id)}
+                        >
+                            {item.title}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        );
+    };
 
     return (
-        <div id="Menu">
-            <RenderListMenu />
-            <Search />
-        </div>
+        <>
+            <div id="Menu">
+                <div className="LogoResponsive"><RenderListMenuLogo /></div>
+                <div className="ComponentBlock">
+                    <RenderListMenuLogo />
+                    <RenderListMenu />
+                </div>
+                <div className="SearchComponent">
+                    <Search />
+                    <div className="MobileMenuButton" onClick={toggleMobileMenu}>☰</div>
+                </div>
+            </div>
+            {isMobileMenuOpen && (
+                <div className="MobileMenu">
+                    <RenderListMenu />
+                </div>
+            )}
+            <div className="Text">Website truyện hoàn online hay nhất Việt Nam.</div>
+        </>
     );
 };
 

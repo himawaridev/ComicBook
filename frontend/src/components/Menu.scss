@@ -50,4 +50,137 @@
             background-color: #2f566d;
         }
     }
+
+    .MobileMenuButton {
+        color: white;
+    }
+
+    .MobileMenuButton:hover {
+        cursor: pointer;
+        color: white;
+    }
+
+    .ComponentBlock {
+        display: flex;
+    }
+
+    .ComponentUnBlock {
+        display: flex;
+        flex-direction: column;
+    }
+
+    // Responsive styles
+
+    @media (max-width: 1920px) {
+        .MobileMenuButton {
+            display: none;
+        }
+
+        .LogoResponsive {
+            display: none;
+        }
+    }
+
+    @media (max-width: 1600px) {
+        padding: 10px 200px 10px 200px;
+        .MobileMenuButton {
+            display: none;
+        }
+    }
+    @media (max-width: 1200px) {
+        padding: 10px 100px 10px 100px;
+        .MobileMenuButton {
+            display: none;
+        }
+    }
+    @media (max-width: 992px) {
+        padding: 10px 20px 10px 20px;
+        .MobileMenuButton {
+            display: none;
+        }
+    }
+    @media (max-width: 768px) {
+        padding: 10px 0px 10px 0px;
+        .MobileMenuButton {
+            display: block;
+            margin: 0px 20px 0px 20px;
+            align-self: center;
+        }
+
+        .ComponentBlock {
+            display: none;
+        }
+
+        .LogoResponsive {
+            display: block;
+        }
+
+        .SearchComponent {
+            display: flex;
+        }
+    }
+    @media (max-width: 576px) {
+    }
+    @media (max-width: 480px) {
+    }
+}
+
+.MobileMenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #14425d;
+    color: white;
+    padding: 5px 0px 5px 0px;
+}
+
+// .MenuItem {
+//     padding: 10px 0px !important;
+// }
+// .MenuTitle {
+//     padding: 10px 0px !important;
+// }
+.ContentMenu {
+    padding: 10px 0px !important;
+}
+
+.ContentMenu:hover {
+    cursor: pointer;
+}
+// .TextContentMenu {
+//     padding: 10px 0px !important;
+// }
+
+.Text {
+    padding: 4px 0px 4px 405px;
+    background-color: white;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+@media (max-width: 1920px) {
+    .Text {
+        padding: 4px 0px 4px 405px;
+    }
+}
+@media (max-width: 1600px) {
+    .Text {
+        padding: 4px 0px 4px 205px;
+    }
+}
+@media (max-width: 1200px) {
+    .Text {
+        padding: 4px 0px 4px 105px;
+    }
+}
+@media (max-width: 992px) {
+    .Text {
+        padding: 4px 0px 4px 25px;
+    }
+}
+@media (max-width: 768px) {
+}
+@media (max-width: 576px) {
+}
+@media (max-width: 480px) {
 }

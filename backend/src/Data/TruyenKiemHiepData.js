@@ -1,11 +1,9 @@
-const express = require('express'); // Thư viện ExpressJS
 const axios = require('axios'); // Thư viện gửi HTTP request
 const cheerio = require('cheerio'); // Thư viện xử lý HTML
 const pLimit = require('p-limit'); // Thư viện giới hạn số lượng yêu cầu đồng thời
 
 // Khai báo URL
-const nameType = 'truyen-kiem-hiep';
-const url = `https://truyenhoan.com/${nameType}/hoan/`;
+const url = 'https://truyenhoan.com/truyen-kiem-hiep/hoan/';
 
 // Giới hạn số lượng yêu cầu đồng thời
 const limit = pLimit(5); // Giới hạn 5 yêu cầu đồng thời
