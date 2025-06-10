@@ -1,0 +1,112 @@
+.truyen-moi-cap-nhat {
+    padding: 20px 0;
+    margin: 0 auto;
+    max-width: 1200px;
+
+    .section-header {
+        margin-bottom: 20px;
+        border-bottom: 2px solid #14425d;
+        padding-bottom: 10px;
+
+        h2 {
+            color: #14425d;
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+        }
+    }
+
+    .stories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 0 15px;
+
+        .story-card {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+
+            &:hover {
+                transform: translateY(-5px);
+            }
+
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+
+            .story-image {
+                position: relative;
+                width: 100%;
+                height: 0;
+                padding-bottom: 133%; // 4:3 aspect ratio
+                overflow: hidden;
+
+                .story-thumbnail {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .story-info {
+                padding: 12px;
+
+                .story-title {
+                    font-size: 16px;
+                    font-weight: 600;
+                    margin: 0 0 8px;
+                    color: #333;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    line-height: 1.4;
+                }
+
+                .story-author {
+                    font-size: 14px;
+                    color: #666;
+                    margin: 0 0 4px;
+                }
+
+                .story-chapters {
+                    font-size: 14px;
+                    color: #14425d;
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+
+// Responsive styles
+@media (max-width: 1200px) {
+    .truyen-moi-cap-nhat {
+        padding: 20px 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .truyen-moi-cap-nhat {
+        .stories-grid {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .truyen-moi-cap-nhat {
+        .stories-grid {
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+        }
+    }
+} 

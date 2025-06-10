@@ -1,10 +1,9 @@
 #Setting {
-    .ChooseType {
-        display: flex;
-        .Radio {
-        }
-
-        .ChooseTypeText {
+    .Setting-item {
+        padding: 10px;
+        
+        .Setting-mode {
+            margin: 0px 0px 10px 0px;
         }
     }
 }

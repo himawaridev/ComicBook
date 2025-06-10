@@ -4,26 +4,29 @@ import Image from "next/image";
 import Link from "next/link";
 import React from 'react';
 
-// Import components:
 import Search from "@/ListContentMenu/Search";
 import ListDanhMuc from "@/ListContentMenu/ListDanhMuc";
 import ListTheLoai from "@/ListContentMenu/ListTheLoai";
 import Setting from "@/ListContentMenu/Setting";
 
-// Import scss:
 import "@/components/Menu.scss";
 import ComicLogo from "@/Images/ComicLogo.png";
 
 interface ListMenu {
     id: number;
     name: string;
-    title: ReactNode; // Tiêu đề của menu
-    component: ReactNode; // Component tương ứng với menu
+    title: ReactNode;
+    component: ReactNode;
 }
 
 const Menu: React.FC = () => {
-    const [activeMenuId, setActiveMenuId] = useState<number | null>(null); // Menu đang mở
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Trạng thái menu trên di động
+    const [activeMenuId, setActiveMenuId] = useState<number | null>(null);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [mobileDropdownOpen, setMobileDropdownOpen] = useState<{ [key: string]: boolean }>({
+        DanhSach: false,
+        TheLoai: false,
+        Setting: false,
+    });
 
     useEffect(() => {
         const handleResize = () => {
@@ -45,7 +48,14 @@ const Menu: React.FC = () => {
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
-    }
+    };
+
+    const toggleMobileDropdown = (key: string) => {
+        setMobileDropdownOpen(prev => ({
+            ...prev,
+            [key]: !prev[key]
+        }));
+    };
 
     const listMenu: ListMenu[] = [
         {
@@ -72,7 +82,7 @@ const Menu: React.FC = () => {
                     <div className="TextContentMenu">Danh sách</div>
                 </div>
             ),
-            component: <ListDanhMuc onClose={closeMenu} />, // Truyền hàm đóng modal vào component con
+            component: <ListDanhMuc onClose={closeMenu} />,
         },
         {
             id: 3,
@@ -102,7 +112,7 @@ const Menu: React.FC = () => {
                     <Link href="/" className="TextContentMenu">Docs</Link>
                 </div>
             ),
-            component: <></>,
+            component: <>docs</>,
         },
         {
             id: 6,
@@ -112,52 +122,38 @@ const Menu: React.FC = () => {
                     <Link href="/" className="TextContentMenu">API</Link>
                 </div>
             ),
-            component: <></>,
+            component: <>API</>,
         },
     ];
 
-    const RenderListMenu: React.FC = () => {
-        return (
-            <div className="MenuList">
-                {listMenu.slice(1).map((item) => (
-                    <div key={item.id} className="MenuItem">
-                        <div
-                            className="MenuTitle"
-                            onClick={() => toggleMenu(item.id)}
-                        >
-                            {item.title}
-                        </div>
-                        {/* Nội dung dropdown */}
-                        {activeMenuId === item.id && item.component && (
-                            <div
-                                className="MenuContent"
-                                onClick={closeMenu} // Khi click vào nội dung, đóng menu
-                                style={{ position: 'absolute', zIndex: '100' }}
-                            >
-                                {item.component}
-                            </div>
-                        )}
+    const RenderListMenu = () => (
+        <div className="MenuList">
+            {listMenu.slice(1).map((item) => (
+                <div key={item.id} className="MenuItem">
+                    <div className="MenuTitle" onClick={() => toggleMenu(item.id)}>
+                        {item.title}
                     </div>
-                ))}
-            </div>
-        );
-    };
-    const RenderListMenuLogo: React.FC = () => {
-        return (
-            <div className="MenuList">
-                {listMenu.slice(0, 1).map((item) => (
-                    <div key={item.id} className="MenuItem">
-                        <div
-                            className="MenuTitle"
-                            onClick={() => toggleMenu(item.id)}
-                        >
-                            {item.title}
+                    {activeMenuId === item.id && item.component && (
+                        <div className="MenuContent" onClick={closeMenu} style={{ position: 'absolute', zIndex: '100' }}>
+                            {item.component}
                         </div>
+                    )}
+                </div>
+            ))}
+        </div>
+    );
+
+    const RenderListMenuLogo = () => (
+        <div className="MenuList">
+            {listMenu.slice(0, 1).map((item) => (
+                <div key={item.id} className="MenuItem">
+                    <div className="MenuTitle" onClick={() => toggleMenu(item.id)}>
+                        {item.title}
                     </div>
-                ))}
-            </div>
-        );
-    };
+                </div>
+            ))}
+        </div>
+    );
 
     return (
         <>
@@ -172,11 +168,42 @@ const Menu: React.FC = () => {
                     <div className="MobileMenuButton" onClick={toggleMobileMenu}>☰</div>
                 </div>
             </div>
+
             {isMobileMenuOpen && (
                 <div className="MobileMenu">
-                    <RenderListMenu />
+                    <div className="MobileDropdown">
+                        <div className="DropdownHeader" onClick={() => toggleMobileDropdown("DanhSach")}>
+                            Danh sách
+                        </div>
+                        {mobileDropdownOpen.DanhSach && (
+                            <div className="DropdownContent">
+                                <ListDanhMuc onClose={() => { }} />
+                            </div>
+                        )}
+                    </div>
+                    <div className="MobileDropdown">
+                        <div className="DropdownHeader" onClick={() => toggleMobileDropdown("TheLoai")}>
+                            Thể loại
+                        </div>
+                        {mobileDropdownOpen.TheLoai && (
+                            <div className="DropdownContent">
+                                <ListTheLoai onClose={() => { }} />
+                            </div>
+                        )}
+                    </div>
+                    <div className="MobileDropdown">
+                        <div className="DropdownHeader" onClick={() => toggleMobileDropdown("Setting")}>
+                            Setting
+                        </div>
+                        {mobileDropdownOpen.Setting && (
+                            <div className="DropdownContent">
+                                <Setting onClose={() => { }} />
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
+
             <div className="Text">Website truyện hoàn online hay nhất Việt Nam.</div>
         </>
     );

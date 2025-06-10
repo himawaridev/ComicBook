@@ -3,7 +3,7 @@
 
     .TruyenHoanHotComponentTitle {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         border-bottom: 1px solid rgba(158, 158, 158, 0.212);
 
         .TitleName {
@@ -11,6 +11,7 @@
             font-weight: 500;
             align-self: center;
             border-bottom: 1px solid rgb(78, 78, 78);
+            margin: 0px 930px 0px 0px;
         }
 
         .Button {
@@ -36,37 +37,42 @@
 
     .THCC {
         display: flex;
-        flex-flow: row wrap;
-        max-width: 1105px;
+        justify-content: center; 
 
-        .TruyenHoanHotComponentContent {
-            margin: 5px 5px 5px 5px;
-            width: 129px;
-            height: 192px;
-
-            .TruyenHoanHotComponentImages {
-                object-fit: cover;
+        .WrapperTHCC {
+            display: flex;
+            flex-flow: row wrap;
+            max-width: 1105px;
+    
+            .TruyenHoanHotComponentContent {
+                margin: 5px 5px 5px 5px;
+                width: 129px;
+                height: 192px;
+    
+                .TruyenHoanHotComponentImages {
+                    object-fit: cover;
+                }
+    
+                .TruyenHoanHotComponentName {
+                    text-shadow: 1px 2px 2px #000;
+                    text-align: center;
+                    color: white;
+                    font-size: 11px;
+                    font-weight: 200;
+                    padding: 5px 5px 5px 5px;
+                    position: relative;
+                    margin: -25px 0px 0px 0px;
+                    background-color: rgba(0, 0, 0, 0.6);
+                }
             }
-
-            .TruyenHoanHotComponentName {
-                text-shadow: 1px 2px 2px #000;
-                text-align: center;
-                color: white;
-                font-size: 11px;
-                font-weight: 200;
-                padding: 5px 5px 5px 5px;
-                position: relative;
-                margin: -25px 0px 0px 0px;
-                background-color: rgba(0, 0, 0, 0.6);
+    
+            .TruyenHoanHotComponentContent.first-item {
+                width: 258px; // Ảnh đầu tiên to gấp đôi
             }
-        }
-
-        .TruyenHoanHotComponentContent.first-item {
-            width: 258px; // Ảnh đầu tiên to gấp đôi
-        }
-
-        .TruyenHoanHotComponentContent.seventh-item {
-            margin-left: 273px; // Ảnh thứ 7 (index 6) có margin-left 200px
+    
+            .TruyenHoanHotComponentContent.seventh-item {
+                margin-left: 273px; // Ảnh thứ 7 (index 6) có margin-left 200px
+            }
         }
     }
 
