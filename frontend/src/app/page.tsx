@@ -1,17 +1,15 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { Flex, Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
 import TruyenHoanHotBanner from '@/components/TruyenHoanHotBanner';
-import TruyenMoiCapNhat from '@/components/TruyenMoiCapNhat';
-import TruyenHoan from '@/components/TruyenHoan';
+import SearchBar from '@/components/SearchBar/SearchBar';
 
 // Import scss and any:
 import "@/app/page.scss";
 
 // ------
 const HomePage = () => {
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -22,19 +20,16 @@ const HomePage = () => {
 
     if (isLoading) {
         return (
-            <Flex justify="center" align="center" style={{ height: '100vh' }}>
+            <Flex justify="center" align="center" style={{ height: '520px', cursor: 'pointer' }}>
                 <Spin size="large" />
             </Flex>
         );
     }
 
     return (
-        <main className="home-page">
+        <main id="HomePage">
             <TruyenHoanHotBanner />
-            {/* <TruyenMoiCapNhat />
-            <TruyenHoan /> */}
-            {/* <TruyenMoiDang />
-            <TruyenHot /> */}
+            <SearchBar />
         </main>
     );
 };

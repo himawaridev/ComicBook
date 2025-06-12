@@ -2,36 +2,45 @@
     margin: 35px 0px 0px 0px;
 
     .TruyenHoanHotComponentTitle {
-        display: flex;
-        justify-content: center;
-        border-bottom: 1px solid rgba(158, 158, 158, 0.212);
 
-        .TitleName {
-            font-size: 18px;
-            font-weight: 500;
-            align-self: center;
-            border-bottom: 1px solid rgb(78, 78, 78);
-            margin: 0px 930px 0px 0px;
+        .TitleNameBanner {
+            display: flex;
+            justify-content: center;
+            // border-bottom: 1px solid rgba(158, 158, 158, 0.212);
+            // margin: 0px 415px 0px 415px;
+
+            .TitleName {
+                font-size: 18px;
+                font-weight: 500;
+                align-self: center;
+                border-bottom: 1px solid rgb(78, 78, 78);
+                margin: 0px 900px 0px 0px;
+            }
+    
+            .Button {
+                display: flex;
+                justify-content: space-between;
+    
+                .ButtonTogether {
+                    font-size: 11px;
+                    font-weight: 500;
+                    margin: 0px 5px 0px 5px;
+                    align-self: center;
+                    background-color: #444;
+                    color: white;
+                    padding: 3px 5px 3px 5px;
+                }
+    
+                .ButtonTogether:hover {
+                    cursor: pointer;
+                    background-color: #14425d;
+                }
+            }
         }
 
-        .Button {
-            display: flex;
-            justify-content: space-between;
-
-            .ButtonTogether {
-                font-size: 11px;
-                font-weight: 500;
-                margin: 0px 5px 0px 5px;
-                align-self: center;
-                background-color: #444;
-                color: white;
-                padding: 3px 5px 3px 5px;
-            }
-
-            .ButtonTogether:hover {
-                cursor: pointer;
-                background-color: #14425d;
-            }
+        .ant-space-item {
+            width: 70px;
+            text-align: end;
         }
     }
 

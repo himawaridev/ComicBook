@@ -6,6 +6,8 @@ import Link from "next/link";
 import { Flex, Spin, Dropdown, Space, Typography } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import clsx from "clsx";
+
+// Import scss and any:
 import "@/components/TruyenHoanHotBanner.scss";
 
 interface Comic {
@@ -21,17 +23,17 @@ interface Comic {
 
 type CategoryType = 'hot' | 'tien-hiep' | 'kiem-hiep';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-const PAGE_SIZE = 13;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'; // Set API URL
+const PAGE_SIZE = 13; // Set item quantity per page
 
 const TruyenHoanHotComponent = () => {
     const [data, setData] = useState<Comic[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [category, setCategory] = useState<CategoryType>('hot');
 
     const fetchData = useCallback(async (category: CategoryType) => {
-        setLoading(true);
+        setIsLoading(true);
         setError(null);
 
         let apiUrl = '';
@@ -61,7 +63,7 @@ const TruyenHoanHotComponent = () => {
             console.error("Error fetching data: ", err);
             setError(err instanceof Error ? err.message : "Không thể tải dữ liệu từ server. Vui lòng thử lại sau.");
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     }, []);
 
@@ -73,14 +75,37 @@ const TruyenHoanHotComponent = () => {
         setCategory(newCategory);
     }, []);
 
-    if (loading) return <LoadingView text="Đang tải dữ liệu..." />;
-    if (error) return <LoadingView text={error} isError />;
+    // Hàm render trạng thái loading / error / không có dữ liệu
+    const renderStatus = () => {
+        if (isLoading) {
+            return (
+                <Flex justify="center" align="center" style={{ height: '520px', cursor: 'pointer' }}>
+                    <Spin size="default" />
+                </Flex>
+            );
+        }
+        if (error) {
+            return (
+                <Flex justify="center" align="center" style={{ height: '520px', cursor: 'pointer' }}>
+                    <Spin size="default" />
+                    <Link href="/HoTroNhanh" style={{ marginLeft: '25px', color: '#1890ff', fontSize: '13px' }}>{error}</Link>
+                </Flex>
+            );
+        }
+        if (!isLoading && !error && data.length === 0) {
+            return (
+                <Link href="/HoTroNhanh" style={{ marginLeft: '25px', color: '#1890ff', fontSize: '13px' }}>Không có dữu liệu!</Link>
+            );
+        }
+        return null;
+    };
 
     return (
         <div id="TruyenHoanHotComponent">
             <div className="TruyenHoanHotComponentHeader">
                 <Header setCategory={handleCategoryChange} currentCategory={category} />
             </div>
+            {renderStatus()}
             <div className="THCC">
                 <div className="WrapperTHCC">
                     {data.map((item, index) => (
@@ -149,35 +174,25 @@ const Header = ({ setCategory, currentCategory }: HeaderProps) => {
 
     return (
         <div className="TruyenHoanHotComponentTitle">
-            <div className="TitleName">TRUYỆN HOT</div>
-            <Dropdown
-                menu={{
-                    items: menuItems,
-                    selectable: true,
-                    selectedKeys: getSelectedKey(),
-                }}
-            >
-                <Typography.Link>
-                    <Space style={{ color: 'rgb(78, 78, 78)' }}>
-                        {categoryMap[currentCategory]}
-                    </Space>
-                </Typography.Link>
-            </Dropdown>
+            <div className="TitleNameBanner">
+                <div className="TitleName">TRUYỆN HOT</div>
+                <Dropdown
+                    menu={{
+                        items: menuItems,
+                        selectable: true,
+                        selectedKeys: getSelectedKey(),
+                    }}
+                >
+                    <Typography.Link>
+                        <Space style={{ color: 'rgb(78, 78, 78)' }}>
+                            {categoryMap[currentCategory]}
+                        </Space>
+                    </Typography.Link>
+                </Dropdown>
+            </div>
         </div>
     );
 };
-
-interface LoadingViewProps {
-    text: string;
-    isError?: boolean;
-}
-
-const LoadingView = ({ text, isError = false }: LoadingViewProps) => (
-    <Flex style={{ justifyContent: 'center', alignItems: 'center', width: '825px', height: '700px' }}>
-        <Spin indicator={<LoadingOutlined spin />} size="large" style={{ color: isError ? 'red' : 'inherit' }} />
-        <div style={{ marginLeft: '20px', color: isError ? 'red' : 'inherit' }}>{text}</div>
-    </Flex>
-);
 
 export default TruyenHoanHotComponent;
 
