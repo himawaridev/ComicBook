@@ -3,9 +3,9 @@ import { useEffect, useState, useMemo, useCallback } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { Flex, Spin, Dropdown, Space, Typography } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { Flex, Spin, Dropdown, Space, Typography, message } from "antd";
 import clsx from "clsx";
+import { listenForDataUpdates, listenForErrors } from "../services/socketService";
 
 // Import scss and any:
 import "@/components/TruyenHoanHotBanner.scss";
@@ -31,6 +31,7 @@ const TruyenHoanHotComponent = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [category, setCategory] = useState<CategoryType>('hot');
+    const [messageApi, contextHolder] = message.useMessage();
 
     const fetchData = useCallback(async (category: CategoryType) => {
         setIsLoading(true);
@@ -67,9 +68,32 @@ const TruyenHoanHotComponent = () => {
         }
     }, []);
 
+    // Fetch data
     useEffect(() => {
         fetchData(category);
     }, [category, fetchData]);
+
+    // Thêm Socket.IO listeners
+    useEffect(() => {
+        // Lắng nghe sự kiện cập nhật dữ liệu
+        listenForDataUpdates((data) => {
+            messageApi.info({
+                content: 'Có dữ liệu mới! Đang cập nhật...',
+                duration: 2,
+            });
+            // Tự động fetch lại dữ liệu khi có cập nhật
+            fetchData(category);
+        });
+
+        // Lắng nghe sự kiện lỗi
+        listenForErrors((error) => {
+            messageApi.error({
+                content: 'Có lỗi xảy ra khi cập nhật dữ liệu',
+                duration: 3,
+            });
+            console.error('Socket error:', error);
+        });
+    }, [category, fetchData, messageApi]);
 
     const handleCategoryChange = useCallback((newCategory: CategoryType) => {
         setCategory(newCategory);
@@ -102,6 +126,7 @@ const TruyenHoanHotComponent = () => {
 
     return (
         <div id="TruyenHoanHotComponent">
+            {contextHolder}
             <div className="TruyenHoanHotComponentHeader">
                 <Header setCategory={handleCategoryChange} currentCategory={category} />
             </div>

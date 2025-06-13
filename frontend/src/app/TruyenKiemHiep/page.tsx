@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Flex, Spin } from 'antd';
 // Import components and any :
-import TruyenKiemHIepComponent from "@/app/TruyenKiemHiep/TruyenKiemHiepComponent";
+import RenderListTruyen from "@/app/Render/RenderListTruyen/RenderListTruyen";
 import TypeTruyen from "@/Types/TypeTruyen";
 
 // Import scss and any:
@@ -28,7 +28,10 @@ const TruyenKiemHiep: React.FC = () => {
 
     return (
         <main id="TruyenKiemHiep">
-            <TruyenKiemHIepComponent />
+            <RenderListTruyen
+                title="TRUYỆN KIẾM HIỆP HOÀN"
+                apiEndpoint="http://localhost:8000/getTruyenKiemHiepController"
+            />
             <TypeTruyen />
         </main>
     )

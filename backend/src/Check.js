@@ -11,76 +11,70 @@ const { TruyenHoanHotServices } = require('./Services/TruyenHoanHotServices')
 const { TruyenTienHiepContentService } = require('./Services/TruyenTienHiepContentServices');
 
 const initServices = async () => {
-    let hasError = false;
+    console.log("[🔄 Initializing all services in parallel...]");
+
+    const services = [
+        {
+            name: "TheLoaiTruyenServices",
+            service: TheLoaiTruyenServices
+        },
+        {
+            name: "InitTruyenTienHiep",
+            service: InitTruyenTienHiep
+        },
+        {
+            name: "TruyenTienHiepContentService",
+            service: TruyenTienHiepContentService
+        },
+        {
+            name: "TruyenKiemHiepServices",
+            service: TruyenKiemHiepServices
+        },
+        {
+            name: "TruyenMoiCapNhatServices",
+            service: TruyenMoiCapNhatServices
+        },
+        {
+            name: "TruyenHotServices",
+            service: TruyenHotServices
+        },
+        {
+            name: "TruyenHoanHotServices",
+            service: TruyenHoanHotServices
+        }
+    ];
 
     try {
-        await TheLoaiTruyenServices();
-        console.log("[✅ TheLoaiTruyenServices initialized]");
+        // Chạy tất cả services song song
+        const results = await Promise.allSettled(
+            services.map(async ({ name, service }) => {
+                try {
+                    await service();
+                    console.log(`[✅ ${name} initialized]`);
+                    console.log(' ');
+                    console.log(' ');
+                    return { name, success: true };
+                } catch (error) {
+                    console.error(`[❌ ${name} failed]:`, error.message);
+                    return { name, success: false, error: error.message };
+                }
+            })
+        );
+
+        // Kiểm tra kết quả
+        const failedServices = results.filter(result => result.status === 'rejected' || (result.value && !result.value.success));
+
+        if (failedServices.length > 0) {
+            console.error("[❌ Some services failed to initialize]");
+            console.error("Failed services:", failedServices.map(f => f.value?.name || 'Unknown'));
+            process.exit(1);
+        }
+
         console.log('-----------------------------------------------------------------------');
+        console.log("[✅ All services initialized successfully]");
+
     } catch (error) {
-        console.error("[❌ TheLoaiTruyenServices failed]:", error.message);
-        hasError = true;
-    }
-
-    try {
-        await InitTruyenTienHiep();
-        console.log("[✅ InitTruyenTienHiep initialized]");
-        console.log('-----------------------------------------------------------------------');
-    } catch (error) {
-        console.error("[❌ InitTruyenTienHiep failed]:", error.message);
-        hasError = true;
-    }
-
-    try {
-        await TruyenTienHiepContentService();
-        console.log("[✅ TruyenTienHiepContentService initialized]");
-        console.log('-----------------------------------------------------------------------');
-    } catch (error) {
-        console.error("[❌ TruyenTienHiepContentService failed]:", error.message);
-        hasError = true;
-    }
-
-    try {
-        await TruyenKiemHiepServices();
-        console.log("[✅ TruyenKiemHiepServices initialized]");
-        console.log('-----------------------------------------------------------------------');
-    } catch (error) {
-        console.error("[❌ TruyenKiemHiepServices failed]:", error.message);
-        hasError = true;
-    }
-
-    try {
-        await TruyenMoiCapNhatServices();
-        console.log("[✅ TruyenMoiCapNhatServices initialized]");
-        console.log('-----------------------------------------------------------------------');
-    } catch (error) {
-        console.error("[❌ TruyenMoiCapNhatServices failed]:", error.message);
-        hasError = true;
-    }
-
-    try {
-        await TruyenHotServices();
-        console.log("[✅ TruyenHotServices initialized]");
-        console.log('-----------------------------------------------------------------------');
-    } catch (error) {
-        console.error("[❌ TruyenHotServices failed]:", error.message);
-        hasError = true;
-    }
-
-    try {
-        await TruyenHoanHotServices();
-        console.log("[✅ TruyenHoanHotServices initialized]");
-        console.log('-----------------------------------------------------------------------');
-    } catch (error) {
-        console.error("[❌ TruyenHoanHotServices failed]:", error.message);
-        hasError = true;
-    }
-
-
-    // Handle:
-
-    if (hasError) {
-        console.error("[❌ Server stopped due to initialization errors]");
+        console.error("[❌ Server stopped due to initialization errors]:", error.message);
         process.exit(1);
     }
 };

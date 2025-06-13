@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/Context/ThemeContext";
+import { SocketProvider } from "@/Context/SocketContext";
 
 // Import use golbal:
 import Menu from "@/components/Menu";
@@ -31,11 +32,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${robotoMono.variable}`}>
         <ThemeProvider>
-          <Menu />
-          <main className="main-content">
-            {children}
-          </main>
-          <Footer />
+          {/* SocketProvider: Quản lý kết nối socket và realtime updates */}
+          <SocketProvider>
+            <Menu />
+            <main className="main-content">
+              {children}
+            </main>
+            <Footer />
+          </SocketProvider>
         </ThemeProvider>
       </body>
     </html>

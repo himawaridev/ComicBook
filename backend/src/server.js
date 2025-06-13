@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const { sequelize } = require('./Model');
+const http = require('http');
+const socketManager = require('./socket/socketManager');
 
 // Import Services:
 const { initServices } = require('./Check');
@@ -33,7 +35,7 @@ app.use('/', TruyenHotRouter);
 app.use('/', TruyenHoanHotRouter);
 
 // ------------------------ Khởi động Server ------------------------ //
-const Server = async () => {
+const startServer = async () => {
     try {
         try {
             await sequelize.authenticate();
@@ -64,21 +66,36 @@ const Server = async () => {
             process.exit(1); // Dừng server nếu khởi tạo services thất bại
         }
 
-        // try {
-        //     await autoUpdateData(); // Gọi khởi tạo services ở file LoadData.js
-        //     console.log("[✅ AutoUpdate] initialized successfully: LoadData.js");
-        // }
-        // catch (error) {
-        //     console.error("[❌ AutoUpdate initialization failed:", error.message);
-        //     process.exit(1); // Dừng server nếu khởi tạo services thất bại
-        // }
+        try {
+            await autoUpdateData(); // Gọi khởi tạo services ở file LoadData.js
+            console.log("[✅ AutoUpdate] initialized successfully: LoadData.js");
+        }
+        catch (error) {
+            console.error("[❌ AutoUpdate initialization failed:", error.message);
+            process.exit(1); // Dừng server nếu khởi tạo services thất bại
+        }
 
         //------------------------------ Start server ------------------------------//
         const PORT = process.env.PORT_SERVER_RUN || 8000;
-        app.listen(PORT, () => {
+        const server = http.createServer(app);
+
+        // Khởi tạo Socket.IO thông qua SocketManager
+        socketManager.initialize(server);
+
+        server.listen(PORT, () => {
             console.log('-----------------------------------------------------------------------');
             console.log(`[🚀 Server] is running on port ${PORT}`);
-        })
+        });
+
+        // Xử lý khi server đóng
+        process.on('SIGTERM', () => {
+            console.log('SIGTERM signal received: closing HTTP server');
+            socketManager.close();
+            server.close(() => {
+                console.log('HTTP server closed');
+            });
+        });
+
     }
     catch (error) {
         console.error("[❌ Unable to start server:", error.message);
@@ -87,5 +104,5 @@ const Server = async () => {
 console.log('-----------------------------------------------------------------------');
 
 // Run server
-Server();
+startServer();
 

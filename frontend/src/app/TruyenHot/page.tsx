@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Flex, Spin } from 'antd';
 // Import components and any :
-import TruyenHotComponent from "@/app/TruyenHot/TruyenHotComponent";
+import RenderListTruyen from "@/app/Render/RenderListTruyen/RenderListTruyen";
 import TypeTruyen from "@/Types/TypeTruyen";
 
 // Import scss and any:
@@ -20,7 +20,7 @@ const TruyenHot: React.FC = () => {
 
     if (isLoading) {
         return (
-            <Flex justify="center" align="center" style={{ height: '100vh' }}>
+            <Flex justify="center" align="center" style={{ height: '520px', cursor: 'pointer' }}>
                 <Spin size="large" />
             </Flex>
         );
@@ -28,7 +28,10 @@ const TruyenHot: React.FC = () => {
 
     return (
         <main id="TruyenHot">
-            <TruyenHotComponent />
+            <RenderListTruyen
+                title="TRUYỆN HOT"
+                apiEndpoint="http://localhost:8000/getTruyenHotController"
+            />
             <TypeTruyen />
         </main>
     )
