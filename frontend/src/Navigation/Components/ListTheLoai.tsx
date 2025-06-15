@@ -5,7 +5,7 @@ import { Flex, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
 // Import scss and any:
-import "@/ListContentMenu/ListTheLoai.scss"; // Import CSS
+import "@/Views/ListTheLoai.scss";
 
 interface ContentTheLoai {
     title: string;

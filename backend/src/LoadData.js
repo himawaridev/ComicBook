@@ -36,7 +36,11 @@ const autoUpdateData = async () => {
 };
 
 // Cài đặt thời gian chạy tự động (ví dụ: 6 tiếng)
-const UPDATE_INTERVAL = 6 * 60 * 60 * 1000; // 6 giờ = 6 * 60 * 60 * 1000 ms
+const UPDATE_INTERVAL = 0.5 * 60 * 60 * 1000; // 6 giờ = 6 * 60 * 60 * 1000 ms
 setInterval(autoUpdateData, UPDATE_INTERVAL);
+
+const hours = UPDATE_INTERVAL / (60 * 60 * 1000);
+console.log("[LoadData.js] UPDATE_INTERVAL: ", UPDATE_INTERVAL);
+console.log("[LoadData.js] Giờ:", hours);
 
 module.exports = { autoUpdateData };

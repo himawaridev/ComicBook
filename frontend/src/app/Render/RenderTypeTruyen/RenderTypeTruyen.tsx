@@ -1,15 +1,15 @@
 import Link from "next/link";
 // Import scss
-import "@/Types/TypeTruyen.scss";
+import "@/Views/RenderTypeTruyen.scss";
 
-interface TypeTruyenInterface {
+interface RenderTypeTruyenInterface {
     id: number;
     title: string;
     link: string;
 }
 
 // Danh sách thể loại từ hình ảnh bạn cung cấp
-const theLoaiTruyen: TypeTruyenInterface[] = [
+const TheLoaiTruyen: RenderTypeTruyenInterface[] = [
     { id: 1, title: "Truyện Tiên Hiệp", link: "/TruyenTienHiep" },
     { id: 2, title: "Truyện Ngôn Tình", link: "/TruyenNgonTinh" },
     { id: 3, title: "Truyện Xuyên", link: "/TruyenXuyen" },
@@ -55,15 +55,15 @@ const theLoaiTruyen: TypeTruyenInterface[] = [
 ];
 
 // Chia danh sách thành 2 cột
-const midIndex = Math.ceil(theLoaiTruyen.length / 2);
-const TypeTruyenLeft = theLoaiTruyen.slice(0, midIndex);
-const TypeTruyenRight = theLoaiTruyen.slice(midIndex);
+const midIndex = Math.ceil(TheLoaiTruyen.length / 2);
+const RenderTypeTruyenLeft = TheLoaiTruyen.slice(0, midIndex);
+const RenderTypeTruyenRight = TheLoaiTruyen.slice(midIndex);
 
-const RenderTypeTruyen = (contentList: TypeTruyenInterface[]) => (
+const RenderRenderTypeTruyen = (contentList: RenderTypeTruyenInterface[]) => (
     <div>
         {contentList.map((item) => (
-            <div className="TypeTruyen" key={item.id}>
-                <Link className="TypeTruyenLink" href={item.link}>
+            <div className="RenderTypeTruyen" key={item.id}>
+                <Link className="RenderTypeTruyenLink" href={item.link}>
                     <div className="InLink">{item.title}</div>
                 </Link>
             </div>
@@ -71,16 +71,16 @@ const RenderTypeTruyen = (contentList: TypeTruyenInterface[]) => (
     </div>
 );
 
-const TypeTruyen = () => {
+const RenderTypeTruyen = () => {
     return (
-        <div id="TypeTruyen">
-            <div className="TitleTypeTruyen">Thể loại truyện</div>
-            <div className="TypeTruyenContent">
-                <div>{RenderTypeTruyen(TypeTruyenLeft)}</div>
-                <div>{RenderTypeTruyen(TypeTruyenRight)}</div>
+        <div id="RenderTypeTruyen">
+            <div className="TitleRenderTypeTruyen">Thể loại truyện</div>
+            <div className="RenderTypeTruyenContent">
+                <div>{RenderRenderTypeTruyen(RenderTypeTruyenLeft)}</div>
+                <div>{RenderRenderTypeTruyen(RenderTypeTruyenRight)}</div>
             </div>
         </div>
     );
 };
 
-export default TypeTruyen;
+export default RenderTypeTruyen;

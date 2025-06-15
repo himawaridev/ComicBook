@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { SearchOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { Tooltip } from 'antd';
 
 // Import scss and any:
 import "@/components/SearchBar/SearchBar.scss";
@@ -69,16 +70,18 @@ const SearchBar: React.FC = () => {
             return (
                 <Flex justify="center" align="center" style={{ height: '100px', cursor: 'pointer' }}>
                     <Spin size="small" />
-                    <Link href="/HoTroNhanh" style={{ marginLeft: '25px', color: '#1890ff', fontSize: '13px' }}>{error}</Link>
+                    <Tooltip title="Đến trang hỗ trợ nhanh">
+                        <Link href="/HoTroNhanh" style={{ marginLeft: '25px', color: '#1890ff', fontSize: '13px' }}>{error}</Link>
+                    </Tooltip>
                 </Flex>
             );
         }
         if (!isLoading && !error && data.length === 0) {
             return (
-                <>
-                    <div style={{ marginLeft: '25px', color: '#1890ff', fontSize: '13px' }}>Không có dữ liệu</div>
-                    <Link href="/HoTroNhanh" style={{ marginLeft: '25px', color: '#1890ff', fontSize: '13px' }}>Không có dữu liệu!</Link>
-                </>
+                <Flex justify="center" align="center" style={{ height: '100px', cursor: 'pointer' }}>
+                    <Spin size="small" />
+                    <Link href="/HoTroNhanh" style={{ marginLeft: '25px', color: '#1890ff', fontSize: '13px' }}>Không có dữ liệu!</Link>
+                </Flex>
             );
         }
         return null;

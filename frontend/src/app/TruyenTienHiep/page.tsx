@@ -1,38 +1,26 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import { Flex, Spin } from 'antd';
-// Import components and any :
-import RenderListTruyen from "@/app/Render/RenderListTruyen/RenderListTruyen";
-import TypeTruyen from "@/Types/TypeTruyen";
+import { EffectLoading, RenderListTruyen, RenderTypeTruyen, useLoading } from '@/app/components';
 
 // Import scss and any:
-import "@/app/TruyenTienHiep/page.scss";
+import "@/Views/page.scss";
 
 const TruyenTienHiep: React.FC = () => {
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsLoading(false);
-        }, 1000);
-        return () => clearTimeout(timer);
-    }, []);
+    const isLoading = useLoading();
 
     if (isLoading) {
         return (
-            <Flex justify="center" align="center" style={{ height: '100vh' }}>
-                <Spin size="large" />
-            </Flex>
-        );
+            <EffectLoading size='large' />
+        )
     }
+
     return (
-        <div id="TruyenTienHiep">
+        <main id="Truyen" className='TruyenTienHiep'>
             <RenderListTruyen
                 title="TRUYỆN TIÊN HIỆP HOÀN"
                 apiEndpoint="http://localhost:8000/getTruyenTienHiepController"
             />
-            <TypeTruyen />
-        </div>
+            <RenderTypeTruyen />
+        </main>
     )
 }
 export default TruyenTienHiep;

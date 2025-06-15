@@ -4,24 +4,24 @@ import Image from "next/image";
 import Link from "next/link";
 import React from 'react';
 
-import Search from "@/ListContentMenu/Search";
-import ListDanhMuc from "@/ListContentMenu/ListDanhMuc";
-import ListTheLoai from "@/ListContentMenu/ListTheLoai";
-import Setting from "@/ListContentMenu/Setting";
+import Search from "@/Navigation/Components/Search";
+import ListDanhMuc from "@/Navigation/Components/ListDanhMuc";
+import ListTheLoai from "@/Navigation/Components/ListTheLoai";
+import Setting from "@/Navigation/Components/Setting";
 
-import "@/components/Menu.scss";
+import "@/Views/Navigation.scss";
 import ComicLogo from "@/Images/ComicLogo.png";
 
-interface ListMenu {
+interface ListNavigation {
     id: number;
     name: string;
     title: ReactNode;
     component: ReactNode;
 }
 
-const Menu: React.FC = () => {
-    const [activeMenuId, setActiveMenuId] = useState<number | null>(null);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+const Navigation: React.FC = () => {
+    const [activeNavigationId, setActiveNavigationId] = useState<number | null>(null);
+    const [isMobileNavigationOpen, setIsMobileNavigationOpen] = useState(false);
     const [mobileDropdownOpen, setMobileDropdownOpen] = useState<{ [key: string]: boolean }>({
         DanhSach: false,
         TheLoai: false,
@@ -31,23 +31,23 @@ const Menu: React.FC = () => {
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth > 768) {
-                setIsMobileMenuOpen(false);
+                setIsMobileNavigationOpen(false);
             }
         };
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const toggleMenu = (id: number | null) => {
-        setActiveMenuId(activeMenuId === id ? null : id);
+    const toggleNavigation = (id: number | null) => {
+        setActiveNavigationId(activeNavigationId === id ? null : id);
     };
 
-    const closeMenu = () => {
-        setActiveMenuId(null);
+    const closeNavigation = () => {
+        setActiveNavigationId(null);
     };
 
-    const toggleMobileMenu = () => {
-        setIsMobileMenuOpen(!isMobileMenuOpen);
+    const toggleMobileNavigation = () => {
+        setIsMobileNavigationOpen(!isMobileNavigationOpen);
     };
 
     const toggleMobileDropdown = (key: string) => {
@@ -57,7 +57,7 @@ const Menu: React.FC = () => {
         }));
     };
 
-    const listMenu: ListMenu[] = [
+    const listNavigation: ListNavigation[] = [
         {
             id: 1,
             name: "Logo",
@@ -78,39 +78,39 @@ const Menu: React.FC = () => {
             id: 2,
             name: "DanhSach",
             title: (
-                <div className="ContentMenu">
-                    <div className="TextContentMenu">Danh sách</div>
+                <div className="ContentNavigation">
+                    <div className="TextContentNavigation">Danh sách</div>
                 </div>
             ),
-            component: <ListDanhMuc onClose={closeMenu} />,
+            component: <ListDanhMuc onClose={closeNavigation} />,
         },
         {
             id: 3,
             name: "TheLoai",
             title: (
-                <div className="ContentMenu">
-                    <div className="TextContentMenu">Thể loại</div>
+                <div className="ContentNavigation">
+                    <div className="TextContentNavigation">Thể loại</div>
                 </div>
             ),
-            component: <ListTheLoai onClose={closeMenu} />,
+            component: <ListTheLoai onClose={closeNavigation} />,
         },
         {
             id: 4,
             name: "Support",
             title: (
-                <div className="ContentMenu">
-                    <Link href="/HoTroNhanh" className="TextContentMenu">Hỗ trợ</Link>
+                <div className="ContentNavigation">
+                    <Link href="/HoTroNhanh" className="TextContentNavigation">Hỗ trợ</Link>
                 </div>
             ),
-            // component: <Setting onClose={closeMenu} />,
+            // component: <Setting onClose={closeNavigation} />,
             component: null,
         },
         {
             id: 5,
             name: "Docs",
             title: (
-                <div className="ContentMenu">
-                    <Link href="/" className="TextContentMenu">Docs</Link>
+                <div className="ContentNavigation">
+                    <Link href="/" className="TextContentNavigation">Docs</Link>
                 </div>
             ),
             component: <>docs</>,
@@ -119,23 +119,23 @@ const Menu: React.FC = () => {
             id: 6,
             name: "API",
             title: (
-                <div className="ContentMenu">
-                    <Link href="/" className="TextContentMenu">API</Link>
+                <div className="ContentNavigation">
+                    <Link href="/" className="TextContentNavigation">API</Link>
                 </div>
             ),
             component: <>API</>,
         },
     ];
 
-    const RenderListMenu = () => (
-        <div className="MenuList">
-            {listMenu.slice(1).map((item) => (
-                <div key={item.id} className="MenuItem">
-                    <div className="MenuTitle" onClick={() => toggleMenu(item.id)}>
+    const RenderListNavigation = () => (
+        <div className="NavigationList">
+            {listNavigation.slice(1).map((item) => (
+                <div key={item.id} className="NavigationItem">
+                    <div className="NavigationTitle" onClick={() => toggleNavigation(item.id)}>
                         {item.title}
                     </div>
-                    {activeMenuId === item.id && item.component && (
-                        <div className="MenuContent" onClick={closeMenu} style={{ position: 'absolute', zIndex: '100' }}>
+                    {activeNavigationId === item.id && item.component && (
+                        <div className="NavigationContent" onClick={closeNavigation} style={{ position: 'absolute', zIndex: '100' }}>
                             {item.component}
                         </div>
                     )}
@@ -144,11 +144,11 @@ const Menu: React.FC = () => {
         </div>
     );
 
-    const RenderListMenuLogo = () => (
-        <div className="MenuList">
-            {listMenu.slice(0, 1).map((item) => (
-                <div key={item.id} className="MenuItem">
-                    <div className="MenuTitle" onClick={() => toggleMenu(item.id)}>
+    const RenderListNavigationLogo = () => (
+        <div className="NavigationList">
+            {listNavigation.slice(0, 1).map((item) => (
+                <div key={item.id} className="NavigationItem">
+                    <div className="NavigationTitle" onClick={() => toggleNavigation(item.id)}>
                         {item.title}
                     </div>
                 </div>
@@ -158,20 +158,20 @@ const Menu: React.FC = () => {
 
     return (
         <>
-            <div id="Menu">
-                <div className="LogoResponsive"><RenderListMenuLogo /></div>
+            <div id="Navigation">
+                <div className="LogoResponsive"><RenderListNavigationLogo /></div>
                 <div className="ComponentBlock">
-                    <RenderListMenuLogo />
-                    <RenderListMenu />
+                    <RenderListNavigationLogo />
+                    <RenderListNavigation />
                 </div>
                 <div className="SearchComponent">
                     <Search />
-                    <div className="MobileMenuButton" onClick={toggleMobileMenu}>☰</div>
+                    <div className="MobileNavigationButton" onClick={toggleMobileNavigation}>☰</div>
                 </div>
             </div>
 
-            {isMobileMenuOpen && (
-                <div className="MobileMenu">
+            {isMobileNavigationOpen && (
+                <div className="MobileNavigation">
                     <div className="MobileDropdown">
                         <div className="DropdownHeader" onClick={() => toggleMobileDropdown("DanhSach")}>
                             Danh sách
@@ -209,4 +209,4 @@ const Menu: React.FC = () => {
     );
 };
 
-export default Menu;
+export default Navigation;

@@ -1,6 +1,6 @@
 import { SearchOutlined } from "@ant-design/icons";
 // Import scss and any:
-import "@/ListContentMenu/Search.scss";
+import "@/Views/Search.scss";
 
 
 const Search: React.FC = () => {

@@ -5,7 +5,7 @@ interface SettingProps {
     onClose: () => void; // Nhận onClose từ props
 }
 
-import "./Setting.scss";
+import "@/Views/Setting.scss";
 
 const Setting: React.FC<SettingProps> = ({ onClose }) => {
     const { theme, toggleTheme } = useContext(ThemeContext);

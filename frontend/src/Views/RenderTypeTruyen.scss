@@ -1,9 +1,9 @@
-#TypeTruyen {
+#RenderTypeTruyen {
     background-color: rgb(236, 240, 241);
     max-height: 700px;
     margin: 35px 0px 0px 20px;
 
-    .TitleTypeTruyen {
+    .TitleRenderTypeTruyen {
         margin: 15px 20px 0px 20px;
         padding: 0px 0px 10px 0px;
         border-bottom: 1px solid rgb(189, 195, 199);
@@ -11,18 +11,18 @@
         font-weight: 600;
     }
 
-    .TypeTruyenContent {
+    .RenderTypeTruyenContent {
         display: flex;
         justify-content: space-between;
 
-        .TypeTruyen {
+        .RenderTypeTruyen {
             display: flex;
             align-items: center;
             margin: 13px 20px 14.5px 20px;
             font-size: 14px;
         }
 
-        .TypeTruyenLink {
+        .RenderTypeTruyenLink {
             text-decoration: none;
             color: rgb(78, 78, 78);
 

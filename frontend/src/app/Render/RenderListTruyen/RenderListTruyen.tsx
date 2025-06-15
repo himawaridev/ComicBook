@@ -1,13 +1,15 @@
 'use client'
-import { useEffect, useState } from "react";
-import axios from "axios";
-import Image from "next/image";
-import Link from "next/link";
-import { Pagination, Flex, Spin } from "antd";
-import { XFilled, EditFilled, ReadFilled } from "@ant-design/icons";
+import {
+    Pagination, Flex, Spin,
+    useState, useEffect,
+    axios,
+    XFilled, EditFilled, ReadFilled,
+    Image, Link
+} from '@/lib/Export_lib'
+import { EffectLoading, useLoading } from '@/app/components';
 
 // Import scss and any:
-import "@/app/Render/RenderListTruyen/RenderListTruyen.scss";
+import "@/Views/RenderListTruyen.scss";
 
 interface RenderListTruyenType {
     id: number;

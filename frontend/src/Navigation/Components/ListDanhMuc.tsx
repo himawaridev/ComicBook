@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 // Import scss and any:
-import "@/ListContentMenu/ListDanhMuc.scss";
+import "@/Views/ListDanhMuc.scss";
 
 interface ContentDanhMuc {
     id: number,

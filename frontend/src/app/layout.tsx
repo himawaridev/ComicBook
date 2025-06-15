@@ -5,8 +5,8 @@ import { ThemeProvider } from "@/Context/ThemeContext";
 import { SocketProvider } from "@/Context/SocketContext";
 
 // Import use golbal:
-import Menu from "@/components/Menu";
 import Footer from "@/components/Footer";
+import Navigation from "@/Navigation/Navigation";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -34,7 +34,7 @@ export default function RootLayout({
         <ThemeProvider>
           {/* SocketProvider: Quản lý kết nối socket và realtime updates */}
           <SocketProvider>
-            <Menu />
+            <Navigation />
             <main className="main-content">
               {children}
             </main>

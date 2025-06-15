@@ -3,7 +3,7 @@ import { Avatar, Button, List, Skeleton } from 'antd';
 import Link from 'next/link';
 
 // Import scss and any:
-import "@/app/HoTroNhanh/HoTroNhanhComponent.scss";
+import "@/Views/HoTroNhanhComponent.scss";
 
 interface DataType {
     gender?: string;
